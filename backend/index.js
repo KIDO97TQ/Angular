@@ -99,7 +99,7 @@ const __dirname = path.dirname(__filename);
 
 // serve angular build
 app.use(express.static(
-    path.join(__dirname, "../dist/angular01/browser")
+    path.join(__dirname, "../dist/Angular01/browser")
 ));
 
 app.get(/.*/, (req, res) => {
