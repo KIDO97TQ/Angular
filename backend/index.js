@@ -102,9 +102,9 @@ app.use(express.static(
     path.join(__dirname, "../dist/angular01")
 ));
 
-app.get("*", (req, res) => {
+app.get(/.*/, (req, res) => {
     res.sendFile(
-        path.join(__dirname, "../dist/angular01/index.html")
+        path.join(__dirname, "../dist/Angular01/index.html")
     );
 });
 
