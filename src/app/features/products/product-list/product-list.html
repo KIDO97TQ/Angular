@@ -1,0 +1,11 @@
+<button (click)="goCreate()">➕ Thêm sản phẩm</button>
+
+@if (productService.loading()) {
+<p>⏳ Loading...</p>
+}
+
+@for (p of products(); track p.id) {
+<div (click)="goDetail(p)">
+    {{ p.title }} - {{ p.price }}
+</div>
+}

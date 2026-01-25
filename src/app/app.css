@@ -1,0 +1,12 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.main {
+    min-height: 100vh;
+    background-image: url("https://suachualaptop24h.com/upload_images/images/2021/05/02/2561184c0d83292e2814a8db5dfe49e1.jpg");
+    background-size: cover;
+    background-position: center;
+}
