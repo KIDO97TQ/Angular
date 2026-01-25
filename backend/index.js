@@ -44,7 +44,7 @@ app.post("/api/login", async (req, res) => {
 
         // 2️⃣ Tìm user (KHÔNG query password)
         const result = await pool.query(
-            "SELECT username, password FROM clothings.userskido WHERE fullname = $1",
+            "SELECT id, username, password FROM clothings.userskido WHERE username = $1",
             [user]
         );
 
@@ -69,7 +69,7 @@ app.post("/api/login", async (req, res) => {
         const token = jwt.sign(
             {
                 id: dbUser.id,
-                fullname: dbUser.fullname
+                username: dbUser.username
             },
             process.env.JWT_SECRET,
             { expiresIn: "1d" }
@@ -81,7 +81,7 @@ app.post("/api/login", async (req, res) => {
             token,
             user: {
                 id: dbUser.id,
-                fullname: dbUser.fullname
+                username: dbUser.username
             }
         });
 
@@ -97,19 +97,13 @@ app.post("/api/login", async (req, res) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// serve angular build
-app.use(express.static(
-    path.join(__dirname, "../dist/Angular01/browser")
-));
-
-app.get(/.*/, (req, res) => {
-    res.sendFile(
-        path.join(__dirname, "../dist/Angular01/index.html")
-    );
+const angularPath = path.join(__dirname, "../dist/Angular01/browser");
+app.use(express.static(angularPath));
+app.get("*", (req, res) => {
+    res.sendFile(path.join(angularPath, "index.html"));
 });
 
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
     console.log("🚀 Server running on port", PORT);
 });
