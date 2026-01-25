@@ -27,7 +27,7 @@ try {
 
 
 app.get("/api/users", async (req, res) => {
-    const { rows } = await pool.query("SELECT * FROM clothings.users");
+    const { rows } = await pool.query("SELECT * FROM clothings.userskido");
     res.json(rows);
 });
 
@@ -44,7 +44,7 @@ app.post("/api/login", async (req, res) => {
 
         // 2️⃣ Tìm user (KHÔNG query password)
         const result = await pool.query(
-            "SELECT id, fullname, password FROM clothings.users WHERE fullname = $1",
+            "SELECT username, password FROM clothings.userskido WHERE fullname = $1",
             [user]
         );
 
