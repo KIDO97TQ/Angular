@@ -99,7 +99,7 @@ const __dirname = path.dirname(__filename);
 
 const angularPath = path.join(__dirname, "../dist/Angular01/browser");
 app.use(express.static(angularPath));
-app.get("*", (req, res) => {
+app.get(/.*/, (req, res) => {
     res.sendFile(path.join(angularPath, "index.html"));
 });
 
