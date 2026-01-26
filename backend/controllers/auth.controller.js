@@ -21,7 +21,7 @@ export const login = async (req, res) => {
 
         if (result.rows.length === 0) {
             return res.status(401).json({
-                message: "Invalid username or password"
+                message: "Invalid username"
             });
         }
 
@@ -32,7 +32,7 @@ export const login = async (req, res) => {
 
         if (!isMatch) {
             return res.status(401).json({
-                message: "Invalid username or password"
+                message: "Invalid password"
             });
         }
 
