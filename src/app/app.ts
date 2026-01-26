@@ -1,8 +1,9 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent, LogoutData } from './shared/components/header/header';
+import { HeaderComponent } from './shared/components/header/header';
 import { CommonModule } from '@angular/common';
 import { ProductService } from './Core/services/product';
+import { AuthService } from '../app/Core/auth/auth-service';
 
 
 @Component({
@@ -14,10 +15,9 @@ import { ProductService } from './Core/services/product';
 })
 
 export class App implements OnInit {
-  user = signal({
-    name: 'Kido',
-    age: 28,
-  })
+  constructor(private authService: AuthService) {
+    this.authService.loadUserFromStorage();
+  }
 
   productService = inject(ProductService);
   products = signal<any[]>([]);
@@ -41,8 +41,4 @@ export class App implements OnInit {
     });
   }
 
-  handleLongout(data: LogoutData) {
-    alert(data.user);
-    alert(data.time);
-  }
 }

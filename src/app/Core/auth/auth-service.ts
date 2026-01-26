@@ -1,7 +1,23 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
+  private userSubject = new BehaviorSubject<string | null>(null);
+  user$ = this.userSubject.asObservable();
+
+  setUsername(username: string) {
+    this.userSubject.next(username);
+    localStorage.setItem('username', username);
+  }
+
+  loadUserFromStorage() {
+    const username = localStorage.getItem('username');
+    if (username) {
+      this.userSubject.next(username);
+    }
+  }
 
   saveToken(token: string) {
     localStorage.setItem('token', token);

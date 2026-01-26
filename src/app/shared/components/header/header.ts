@@ -9,7 +9,6 @@ export interface LogoutData {
 
 interface User {
   name: string;
-  age: number;
 }
 
 @Component({
@@ -23,16 +22,13 @@ interface User {
 export class HeaderComponent {
   auth = inject(AuthService);
   router = inject(Router);
-  @Input() appName = '';
 
-  user = input<User>();
+  authService = inject(AuthService);
+  username: string | null = null;
 
-  logout = output<LogoutData>();
-
-  onLogout() {
-    this.logout.emit({
-      user: 'ThanhKido',
-      time: new Date()
+  ngOnInit() {
+    this.authService.user$.subscribe(name => {
+      this.username = name;
     });
   }
 

@@ -46,6 +46,7 @@ export class LoginComponent {
     this.userService.login(payload).subscribe({
       next: (res: any) => {
         this.authService.saveToken(res.token);
+        this.authService.setUsername(username);
         this.router.navigate(['/products']);
       },
       error: (ee) => {
