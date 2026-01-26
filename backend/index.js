@@ -8,12 +8,17 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import authRoutes from "./routes/auth.route.js";
+import userRoutes from "./routes/user.route.js";
+
 dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/auth/login", authRoutes);
+app.use("/api/users", userRoutes);
 
 try {
     await pool.query("SELECT 1");
@@ -24,75 +29,6 @@ try {
     console.error("MESSAGE:", e.message);
     console.error("DETAIL:", e);
 }
-
-
-app.get("/api/users", async (req, res) => {
-    const { rows } = await pool.query("SELECT * FROM clothings.userskido");
-    res.json(rows);
-});
-
-app.post("/api/login", async (req, res) => {
-    try {
-        const { user, pass } = req.body;
-
-        // 1️⃣ Validate input
-        if (!user || !pass) {
-            return res.status(400).json({
-                message: "Missing username or password"
-            });
-        }
-
-        // 2️⃣ Tìm user (KHÔNG query password)
-        const result = await pool.query(
-            "SELECT id, username, password FROM clothings.userskido WHERE username = $1",
-            [user]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(401).json({
-                message: "Invalid username or password"
-            });
-        }
-
-        const dbUser = result.rows[0];
-
-        // 3️⃣ So sánh password
-        const isMatch = await bcrypt.compare(pass, dbUser.password);
-
-        if (!isMatch) {
-            return res.status(401).json({
-                message: "Invalid username or password"
-            });
-        }
-
-        // 4️⃣ Tạo JWT
-        const token = jwt.sign(
-            {
-                id: dbUser.id,
-                username: dbUser.username
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "1d" }
-        );
-
-        // 5️⃣ Trả kết quả
-        res.json({
-            message: "Login success",
-            token,
-            user: {
-                id: dbUser.id,
-                username: dbUser.username
-            }
-        });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            message: "Server error"
-        });
-    }
-});
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -107,9 +43,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("🚀 Server running on port", PORT);
 });
-
-
-//const PORT = 3000;
-//app.listen(PORT, () => {
-//    console.log(`🚀 Server running on http://localhost:${PORT}`);
-//});
