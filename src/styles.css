@@ -1,1 +1,223 @@
-/* You can add global styles to this file, and also import other style files */
+/* ===== LIGHT ===== */
+:root {
+    --bg: #ffffff;
+    --text: #111827;
+    --header-bg: #ffffff;
+    --border: #e5e7eb;
+
+    --menu-bg: #f9fafb;
+    --menu-hover: #e5e7eb;
+}
+
+/* ===== DARK ===== */
+[data-theme='dark'] {
+    --bg: #0f172a;
+    --text: #e5e7eb;
+    --header-bg: #020617;
+    --border: #334155;
+
+    --menu-bg: #374151;
+    --menu-hover: #4B4B4B;
+}
+
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ============================ */
+
+/* ========== THEME TOGGLE - ENHANCED VERSION ========== */
+
+.theme-toggle {
+    position: relative;
+    width: 64px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--menu-bg);
+    cursor: pointer;
+    overflow: hidden;
+
+    /* Thêm hiệu ứng hover mượt */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle:active {
+    transform: scale(0.98);
+}
+
+/* ========== SLIDER với animation đẹp hơn ========== */
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #3b82f6, #2563eb);
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+
+    /* Cải thiện transition với cubic-bezier cho mượt mà hơn */
+    transition:
+        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.4s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Animation khi hover slider */
+.theme-toggle:hover::before {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* DARK → slider sang phải với animation đẹp */
+html[data-theme='dark'] .theme-toggle::before {
+    transform: translateX(43px);
+    background: linear-gradient(145deg, #22c55e, #16a34a);
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+}
+
+html[data-theme='dark'] .theme-toggle:hover::before {
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.5);
+}
+
+/* ========== ICON với animation mượt mà ========== */
+.theme-toggle .icon {
+    font-size: 14px;
+    z-index: 1;
+
+    /* Thêm transform và scale cho animation mượt */
+    transition:
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* MẶC ĐỊNH = LIGHT → Hiển thị mặt trời */
+.theme-toggle .sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle .moon {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.5);
+}
+
+/* DARK → Hiển thị mặt trăng */
+html[data-theme='dark'] .theme-toggle .sun {
+    opacity: 0;
+    transform: rotate(180deg) scale(0.5);
+}
+
+html[data-theme='dark'] .theme-toggle .moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* ========== THÊM HIỆU ỨNG ÁNH SÁNG ========== */
+
+/* Ánh sáng mặt trời khi light mode */
+.theme-toggle .sun {
+    position: relative;
+}
+
+.theme-toggle .sun::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.theme-toggle:hover .sun::before {
+    opacity: 1;
+    animation: sunPulse 2s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+    }
+}
+
+/* Ánh sáng mặt trăng khi dark mode */
+html[data-theme='dark'] .theme-toggle .moon {
+    position: relative;
+}
+
+html[data-theme='dark'] .theme-toggle .moon::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: radial-gradient(circle, rgba(147, 197, 253, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+html[data-theme='dark'] .theme-toggle:hover .moon::before {
+    opacity: 1;
+    animation: moonGlow 3s ease-in-out infinite;
+}
+
+@keyframes moonGlow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+/* ========== HIỆU ỨNG KHI CLICK (Optional) ========== */
+
+/* Thêm class này vào button khi click bằng JavaScript */
+.theme-toggle.switching {
+    animation: toggleClick 0.4s ease;
+}
+
+@keyframes toggleClick {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}

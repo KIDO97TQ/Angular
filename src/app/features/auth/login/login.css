@@ -173,3 +173,33 @@ button:disabled {
     justify-content: center;
     align-items: center;
 }
+
+/* ===========welcome============ */
+
+.login-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: var(--bg);
+}
+
+.welcome-box {
+    padding: 48px 64px;
+    border-radius: 16px;
+
+    background: #4b4b4b;
+    color: white;
+    text-align: center;
+
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-box h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.welcome-box h2 {
+    font-size: 24px;
+    opacity: 0.85;
+}

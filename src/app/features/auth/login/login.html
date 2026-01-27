@@ -1,8 +1,8 @@
 <div class="login-page">
+    @if (!isLoggedIn) {
+    <!-- LOGIN FORM -->
     <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
-
-        <h2>ACCESS GRANTED</h2>
-
+        <h2>Đăng nhập</h2>
         <div class="field">
             <label>User</label>
             <input formControlName="username" placeholder="enter_username" />
@@ -22,6 +22,16 @@
         <button type="submit" [disabled]="form.invalid">
             <span>LOGIN</span>
         </button>
-
     </form>
+    }
+    @if (isLoggedIn) {
+    <!-- WELCOME -->
+    <div class="welcome-box">
+        <h1>Welcome {{ username }} 👋</h1>
+        <button (click)="logout()">
+            Logout
+        </button>
+
+    </div>
+    }
 </div>

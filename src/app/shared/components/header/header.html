@@ -1,2 +1,53 @@
-<i class="bi bi-person-circle"> {{username}}</i>
-<button class="logout-button" (click)="logoutt()">Logout</button>
+@if(username)
+{
+<header class="app-header">
+    <!-- LEFT -->
+    <div class="header-left">
+        <span class="brand">Kido App</span>
+    </div>
+
+    <!-- CENTER MENU -->
+    <nav class="header-center" [class.open]="menuOpen">
+        <a routerLink="/login" routerLinkActive="active">Home</a>
+
+        <div class="dropdown">
+            <span class="dropdown-toggle">Products</span>
+            <div class="dropdown-menu">
+                <a routerLink="/products/a">Product A</a>
+                <a routerLink="/products/b">Product B</a>
+            </div>
+        </div>
+
+        <a routerLink="/users" routerLinkActive="active">Users</a>
+    </nav>
+
+    <!-- RIGHT -->
+    <div class="header-right">
+        <div class="user-dropdown" (click)="$event.stopPropagation()">
+            <div class="user-toggle" (click)="toggleUserMenu(); $event.stopPropagation()">
+                <i class="bi bi-person-circle"></i>
+                <span>{{ username }}</span>
+            </div>
+
+            @if (userMenuOpen)
+            {
+            <div class="user-menu" (click)="$event.stopPropagation()">
+                <a routerLink="/account">Account settings</a>
+                <a routerLink="/profile">Profile</a>
+                <button class="theme-toggle" (click)="toggleTheme(); $event.stopPropagation()">
+                    <span class="icon moon">🌙</span>
+                    <span class="icon sun">☀️</span>
+                </button>
+                <hr />
+                <button (click)="logout()">Logout</button>
+            </div>
+            }
+        </div>
+
+        <!--Hamburger -->
+        <i class="bi bi-list hamburger" (click)="$event.stopPropagation()" ; (click)="menuOpen = !menuOpen"></i>
+    </div>
+</header>
+
+
+}

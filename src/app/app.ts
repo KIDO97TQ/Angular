@@ -15,6 +15,7 @@ import { AuthService } from '../app/Core/auth/auth-service';
 })
 
 export class App implements OnInit {
+
   constructor(private authService: AuthService) {
     this.authService.loadUserFromStorage();
   }
