@@ -21,7 +21,7 @@ export class UserService {
 
   // Method signup
   signup(payload: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/signup`, payload);
+    return this.http.post(`${this.apiUrl}/auth/signup`, payload);
   }
 
   // Check username có tồn tại không
