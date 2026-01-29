@@ -18,4 +18,17 @@ export class UserService {
   login(data: { user: string; pass: string }) {
     return this.http.post(`${this.apiUrl}/auth/login`, data);
   }
+
+  // Method signup
+  signup(payload: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/signup`, payload);
+  }
+
+  // Check username có tồn tại không
+  checkUsername(username: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/auth/check-username/${username}`);
+
+    // Hoặc dùng POST nếu backend yêu cầu:
+    //return this.http.post(`${this.apiUrl}/auth/check-username`, { username });
+  }
 }

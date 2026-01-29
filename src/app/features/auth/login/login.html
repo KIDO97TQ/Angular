@@ -1,37 +1,149 @@
-<div class="login-page">
+<!-- login.html -->
+<div class="auth-wrapper">
     @if (!isLoggedIn) {
-    <!-- LOGIN FORM -->
-    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
-        <h2>Đăng nhập</h2>
-        <div class="field">
-            <label>User</label>
-            <input formControlName="username" placeholder="enter_username" />
-            @if (form.controls.username.invalid && form.controls.username.touched) {
-            <p class="error">Bắt buộc nhập tên</p>
-            }
+    <div class="auth-container" [class.signup-mode]="isSignupMode">
+
+        <!-- Forms Container -->
+        <div class="forms-container">
+            <div class="signin-signup">
+
+                <!-- SIGN IN FORM -->
+                <form [formGroup]="form" (ngSubmit)="submit()" class="sign-in-form">
+                    <h2 class="title">Sign in</h2>
+
+                    <div class="input-field">
+                        <i class="bi bi-person"></i>
+                        <input type="text" formControlName="username" placeholder="Username"
+                            [class.error-input]="form.controls.username.invalid && form.controls.username.touched" />
+                    </div>
+                    @if (form.controls.username.invalid && form.controls.username.touched) {
+                    <p class="error-message">Vui lòng nhập tên đăng nhập</p>
+                    }
+
+                    <div class="input-field">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" formControlName="password" placeholder="Password"
+                            [class.error-input]="form.controls.password.invalid && form.controls.password.touched" />
+                    </div>
+                    @if (form.controls.password.invalid && form.controls.password.touched) {
+                    <p class="error-message">Vui lòng nhập password</p>
+                    }
+
+                    <button type="submit" class="btn solid" [disabled]="form.invalid">
+                        Login
+                    </button>
+
+                    <p class="social-text">Or Sign in with social platforms</p>
+                    <div class="social-media">
+                        <a class="social-icon facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a class="social-icon google">
+                            <i class="bi bi-google"></i>
+                        </a>
+                        <a class="social-icon linkedin">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </form>
+
+                <!-- SIGN UP FORM -->
+                <form [formGroup]="signupForm" (ngSubmit)="submitSignup()" class="sign-up-form">
+                    <h2 class="title">Sign up</h2>
+
+                    <div class="input-field">
+                        <i class="bi bi-person"></i>
+                        <input type="text" formControlName="username" placeholder="Username" />
+                    </div>
+
+                    @if (signupForm.controls.username.errors?.['usernameTaken']) {
+                    <p class="error-message">Username already taken!</p>
+                    }
+                    @if (signupForm.controls.username.errors?.['minlength']) {
+                    <p class="error-message">Username must be at least 3 characters</p>
+                    }
+
+                    <div class="input-field">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" formControlName="email" placeholder="Email" />
+                    </div>
+                    @if (signupForm.controls.email.invalid) {
+                    <p class="error-message">Vui lòng nhập đúng định dạng</p>
+                    }
+
+                    <div class="input-field">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" formControlName="password" placeholder="Password" />
+                    </div>
+                    @if (signupForm.controls.password.invalid) {
+                    <p class="error-message">Chiều dài password phải => 6</p>
+                    }
+
+                    <button type="submit" class="btn" [disabled]="signupForm.invalid">
+                        Sign up
+                    </button>
+
+                    <p class="social-text">Or Sign up with social platforms</p>
+                    <div class="social-media">
+                        <a class="social-icon facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a class="social-icon google">
+                            <i class="bi bi-google"></i>
+                        </a>
+                        <a class="social-icon linkedin">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </form>
+
+            </div>
         </div>
 
-        <div class="field">
-            <label>Password</label>
-            <input type="password" formControlName="password" placeholder="••••••" />
-            @if (form.controls.password.invalid && form.controls.password.touched) {
-            <p class="error">Password phải &gt; 0</p>
-            }
-        </div>
+        <!-- Panels Container -->
+        <div class="panels-container">
 
-        <button type="submit" [disabled]="form.invalid">
-            <span>LOGIN</span>
-        </button>
-    </form>
+            <!-- Left Panel -->
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>New here?</h3>
+                    <p>
+                        Đăng ký ngay để nhận được các ưu đãi, phần thưởng và giảm giá độc quyền!
+                    </p>
+                    <button class="btn transparent" (click)="toggleMode()">
+                        Sign up
+                    </button>
+                </div>
+                <img src="assets/log.svg" class="image" alt="" />
+            </div>
+
+            <!-- Right Panel -->
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>One of us?</h3>
+                    <p>
+                        Bạn đã có tài khoản? Đăng nhập để tiếp tục hành trình cùng chúng tôi!
+                    </p>
+                    <button class="btn transparent" (click)="toggleMode()">
+                        Sign in
+                    </button>
+                </div>
+                <img src="assets/register.svg" class="image" alt="" />
+            </div>
+
+        </div>
+    </div>
     }
-    @if (isLoggedIn) {
-    <!-- WELCOME -->
-    <div class="welcome-box">
-        <h1>Welcome {{ username }} 👋</h1>
-        <button (click)="logout()">
-            Logout
-        </button>
 
+    @if (isLoggedIn) {
+    <!-- Welcome Screen -->
+    <div class="welcome-screen">
+        <div class="welcome-card">
+            <h1>Welcome {{ username }}! 👋</h1>
+            <button class="logout-btn" (click)="logout()">
+                Logout
+            </button>
+        </div>
     </div>
     }
 </div>
