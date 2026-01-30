@@ -74,7 +74,7 @@ export const checkUsername = async (req, res) => {
         if (!username || username.length < 3) {
             return res.status(400).json({
                 exists: false,
-                message: "Username must be at least 3 characters"
+                message: "Tài khoản phải dài hơn 3 ký tự"
             });
         }
 
@@ -88,7 +88,7 @@ export const checkUsername = async (req, res) => {
 
         res.json({
             exists: exists,
-            message: exists ? "Username already taken" : "Username available"
+            message: exists ? "Tài khoản đã tồn tại" : "Tên người dùng khả dụng"
         });
 
     } catch (err) {
@@ -115,7 +115,7 @@ export const signup = async (req, res) => {
 
         if (user.length < 3) {
             return res.status(400).json({
-                message: "Username must be at least 3 characters"
+                message: "Tài khoản phải dài hơn 3 ký tự"
             });
         }
 

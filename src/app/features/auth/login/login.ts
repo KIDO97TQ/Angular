@@ -10,6 +10,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../Core/services/user';
 import { AuthService } from '../../../Core/auth/auth-service';
+import { ToastrService } from 'ngx-toastr';
+import { ChangeDetectorRef } from '@angular/core';
+import { usernameExistsValidator } from '../../../shared/validators/username-exists.validator';
 
 @Component({
   standalone: true,
@@ -18,17 +21,18 @@ import { AuthService } from '../../../Core/auth/auth-service';
   styleUrls: ['./login.css'],
 })
 export class LoginComponent {
-
   router = inject(Router);
   userService = inject(UserService);
   authService = inject(AuthService);
+  toastr = inject(ToastrService);
+  cd = inject(ChangeDetectorRef);
 
   isLoggedIn = false;
   username: string | null = null;
   isSignupMode = false; // Toggle between login/signup
 
   // LOGIN FORM
-  form = new FormGroup({
+  formLogin = new FormGroup({
     username: new FormControl<string>('', {
       nonNullable: true,
       validators: Validators.required
@@ -43,7 +47,11 @@ export class LoginComponent {
   signupForm = new FormGroup({
     username: new FormControl<string>('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)]
+      validators: [Validators.required, Validators.minLength(3)],
+      asyncValidators: [
+        usernameExistsValidator(this.userService)
+      ],
+      updateOn: 'blur' //khuyên dùng
     }),
     email: new FormControl<string>('', {
       nonNullable: true,
@@ -69,8 +77,8 @@ export class LoginComponent {
 
   // LOGIN SUBMIT
   submit() {
-    if (this.form.invalid) return;
-    const { username, password } = this.form.getRawValue();
+    if (this.formLogin.invalid) return;
+    const { username, password } = this.formLogin.getRawValue();
 
     const payload = {
       user: username,
@@ -79,6 +87,7 @@ export class LoginComponent {
 
     this.userService.login(payload).subscribe({
       next: (res: any) => {
+        this.formLogin.reset();
         this.authService.saveToken(res.token);
         this.authService.setUsername(username);
         this.isLoggedIn = true;
@@ -107,9 +116,11 @@ export class LoginComponent {
 
     this.userService.signup(payload).subscribe({
       next: (res: any) => {
+        this.signupForm.reset();
         this.isSignupMode = false;
-        this.isLoggedIn = true;
-        alert('Signup successful! Please login.');
+        this.isLoggedIn = false;
+        this.cd.detectChanges(); //thêm để hết lỗi Angular đã check xong view rồi, nhưng giá trị bind lại bị đổi ngay sau đó
+        this.toastr.success('Signup successful! Please login.', 'Success');
       },
       error: (ee) => {
         alert(ee.error.message);
