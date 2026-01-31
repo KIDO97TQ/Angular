@@ -31,6 +31,7 @@ export class HeaderComponent {
   authService = inject(AuthService);
   username: string | null = null;
 
+
   ngOnInit() {
     this.authService.user$.subscribe(name => {
       this.username = name;
@@ -46,6 +47,11 @@ export class HeaderComponent {
 
   toggleUserMenu() {
     this.userMenuOpen = !this.userMenuOpen;
+  }
+
+  toggleMenu(event: Event) {
+    event.stopPropagation();
+    this.menuOpen = !this.menuOpen;
   }
 
   toggleTheme() {

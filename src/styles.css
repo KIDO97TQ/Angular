@@ -221,3 +221,17 @@ html[data-theme='dark'] .theme-toggle:hover .moon::before {
         transform: scale(1) rotate(0deg);
     }
 }
+
+/* html,
+body {
+    height: auto !important;
+    min-height: 100%;
+    overflow: visible !important;
+    position: relative;
+} */
+
+
+body {
+    margin: 0;
+    padding: 0;
+}

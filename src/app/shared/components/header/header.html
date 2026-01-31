@@ -1,5 +1,3 @@
-@if(username)
-{
 <header class="app-header">
     <!-- LEFT -->
     <div class="header-left">
@@ -43,11 +41,7 @@
             </div>
             }
         </div>
-
         <!--Hamburger -->
-        <i class="bi bi-list hamburger" (click)="$event.stopPropagation()" ; (click)="menuOpen = !menuOpen"></i>
+        <i class="bi bi-list hamburger" (click)="toggleMenu($event)"></i>
     </div>
 </header>
-
-
-}
