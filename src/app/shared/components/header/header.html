@@ -59,7 +59,7 @@
                 </div>
                 <span>|</span>
                 <i class="bi bi-cart"></i> <!-- giỏ đơn giản -->
-                <span class="cart-badge">55</span>
+                <span class="cart-badge">15</span>
             </div>
         </div>
     </div>
@@ -85,7 +85,8 @@
         <!-- CENTER MENU -->
         <nav class="header-center" [class.open]="menuOpen">
             <a routerLink="/login" routerLinkActive="active">Home</a>
-
+            <a routerLink="/login" routerLinkActive="active">Home</a>
+            <a routerLink="/login" routerLinkActive="active">Home</a>
             <div class="dropdown">
                 <span class="dropdown-toggle">Products</span>
                 <div class="dropdown-menu">
@@ -94,15 +95,17 @@
                 </div>
             </div>
 
-            <a routerLink="/users" routerLinkActive="active">Users</a>
+            <a routerLink="/users" routerLinkActive="Abount">Users</a>
         </nav>
 
         <!-- RIGHT -->
         <div class="header-right">
-            <div class="header-right">
-                <i class="">Find</i>
+            <div class="search-wrapper">
+                <input type="text" placeholder="Search...">
+                <button class="btn-search">
+                    <i class="bi bi-search"></i>
+                </button>
             </div>
-            <!--Hamburger -->
             <i class="bi bi-list hamburger" (click)="toggleMenu($event)"></i>
         </div>
     </div>

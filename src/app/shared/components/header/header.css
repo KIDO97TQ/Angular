@@ -6,18 +6,17 @@
 
 .top-contact-bar {
     background: var(--header-bg);
-
     text-align: center;
     font-size: 13px;
     padding: 8px 0;
 }
 
 .top-contact-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 6px;
+    padding: 0 16px;
     display: flex;
     justify-content: space-between;
+    margin: 0;
+    margin-left: 0px;
 }
 
 .header-left-top-contact,
@@ -40,7 +39,11 @@
 
 .contact-linkInfo {
     text-align: center;
-    display: block;
+}
+
+.contact-link {
+    gap: 6px;
+    display: flex;
 }
 
 .bi.bi-person-circle {
@@ -70,14 +73,61 @@
 
 .cart-badge {
     position: absolute;
-    top: 8px;
-    right: 0px;
+    top: 5px;
+    right: 8px;
     background: red;
     color: white;
     font-size: 10px;
     padding: 2px 5px;
     border-radius: 999px;
 }
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--text);
+
+}
+
+.search-wrapper input {
+    flex: 1;
+    height: 20px;
+    padding: 0 14px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.search-wrapper input::placeholder {
+    color: #9ca3af;
+}
+
+.btn-search {
+    width: 44px;
+    height: 30px;
+    border: none;
+    background: #ffffff;
+    color: #111827;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-search i {
+    font-size: 16px;
+}
+
+.btn-search:hover {
+    background: #e5e7eb;
+}
+
 
 
 /* ===== HEADER ===== */
@@ -104,6 +154,11 @@
 .header-left .brand {
     font-size: 28px;
     font-weight: 600;
+}
+
+.header-left {
+    /* margin-left: 300px; */
+    transform: translateX(200px);
 }
 
 .brand {
@@ -209,6 +264,7 @@
 
 .logo {
     width: 250px;
+
 }
 
 .dark .logo {
@@ -302,6 +358,15 @@
         display: none;
     }
 
+    .contact-link {
+        display: inline;
+    }
+
+    .contact-linkInfo {
+        text-align: center;
+        display: block;
+    }
+
     .cart-badge {
         position: absolute;
         top: 16px;
@@ -332,11 +397,48 @@
 
     .top-contact-inner {
         margin-right: 0px;
+        padding: 0 6px;
     }
 
-    /* .contact-linkInfo {
-        display: none;
-    } */
+    .header-left {
+        /* margin-left: 300px; */
+        transform: translateX(10px);
+    }
+
+    .search-wrapper {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 120px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--text);
+
+    }
+
+    .search-wrapper input {
+        flex: 1;
+        height: 30px;
+        padding: 0 5px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 12px;
+    }
+
+    .btn-search {
+        width: 30px;
+        height: 30px;
+        border: none;
+        background: #ffffff;
+        color: #111827;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+    }
 }
 
 .top-contact-bar {
