@@ -12,6 +12,7 @@
 /* ===== DARK ===== */
 [data-theme='dark'] {
     --bg: #0f172a;
+    --bg: #0f172a;
     --text: #e5e7eb;
     --header-bg: #020617;
     --border: #334155;

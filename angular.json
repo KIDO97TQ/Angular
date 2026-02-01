@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "Angular01": {
+    "AmyStudio": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -69,10 +69,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Angular01:build:production"
+              "buildTarget": "AmyStudio:build:production"
             },
             "development": {
-              "buildTarget": "Angular01:build:development"
+              "buildTarget": "AmyStudio:build:development"
             }
           },
           "defaultConfiguration": "development"

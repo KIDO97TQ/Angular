@@ -1,47 +1,109 @@
-<header class="app-header">
-    <!-- LEFT -->
-    <div class="header-left">
-        <span class="brand">Kido App</span>
+<header class="site-header">
+    <!-- TOP BAR - Contact Info -->
+    <div class="top-contact-bar">
+        <div class="top-contact-inner">
+            <div class="header-left-top-contact">
+                <div class="top-contact-content">
+                    <div class="contact-items">
+                        <span href="tel:0123456789" class="contact-link">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span class="contact-linkInfo">098.8424.735</span>
+                        </span>
+
+                        <span href="mailto:contact@demo.com" class="contact-link">
+                            <i class="bi bi-facebook"></i>
+                            <span class="contact-linkInfo">LuongEm</span>
+                        </span>
+
+                        <span class="contact-link">
+                            <i class="bi bi-clock-fill"></i>
+                            <span class="contact-linkInfo">Mở cửa từ 8:00 - 22:00</span>
+                        </span>
+
+                        <span class="contact-link">
+                            <i class="bi bi-geo-alt"></i>
+                            <span class="contact-linkInfo">Map</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-right-top-contact">
+                <div class="user-dropdown" (click)="$event.stopPropagation()">
+                    <div class="user-toggle" (click)="toggleUserMenu(); $event.stopPropagation()">
+                        @if(username)
+                        {
+                        <i class="bi bi-person-circle"></i>
+                        <span>{{ username }}</span>
+                        }
+                        @else
+                        {
+                        <i class="bi bi-door-open"></i>
+                        <span>Login</span>
+                        }
+                    </div>
+
+                    @if (userMenuOpen)
+                    {
+                    <div class="user-menu" (click)="$event.stopPropagation()">
+                        <a routerLink="/account">Account settings</a>
+                        <a routerLink="/profile">Profile</a>
+                        <button class="theme-toggle" (click)="toggleTheme(); $event.stopPropagation()">
+                            <span class="icon moon">🌙</span>
+                            <span class="icon sun">☀️</span>
+                        </button>
+                        <hr />
+                        <button (click)="logout()">Logout</button>
+                    </div>
+                    }
+                </div>
+                <span>|</span>
+                <i class="bi bi-cart"></i> <!-- giỏ đơn giản -->
+                <span class="cart-badge">55</span>
+            </div>
+        </div>
     </div>
 
-    <!-- CENTER MENU -->
-    <nav class="header-center" [class.open]="menuOpen">
-        <a routerLink="/login" routerLinkActive="active">Home</a>
-
-        <div class="dropdown">
-            <span class="dropdown-toggle">Products</span>
-            <div class="dropdown-menu">
-                <a routerLink="/products/a">Product A</a>
-                <a routerLink="/products/b">Product B</a>
-            </div>
+    <!-- MAIN HEADER - Logo, Menu, User -->
+    <!-- LEFT -->
+    <div class="app-header">
+        <div class="header-left">
+            <a routerLink="/" class="brand-logo">
+                <svg viewBox="0 0 440 90" xmlns="http://www.w3.org/2000/svg" class="logo">
+                    <circle cx="60" cy="45" r="38" stroke="currentColor" stroke-width="3" fill="none" />
+                    <!-- Stylized A -->
+                    <path d="M35 70 L60 15 L85 70 L72 70 L64 48 L56 48 L48 70 Z" fill="currentColor" />
+                    <!-- Text -->
+                    <text x="110" y="63" font-size="44" font-family="Sora, Poppins, sans-serif" font-weight="500"
+                        fill="currentColor">
+                        <tspan font-weight="700">AMY Studio</tspan>
+                    </text>
+                </svg>
+            </a>
         </div>
 
-        <a routerLink="/users" routerLinkActive="active">Users</a>
-    </nav>
+        <!-- CENTER MENU -->
+        <nav class="header-center" [class.open]="menuOpen">
+            <a routerLink="/login" routerLinkActive="active">Home</a>
 
-    <!-- RIGHT -->
-    <div class="header-right">
-        <div class="user-dropdown" (click)="$event.stopPropagation()">
-            <div class="user-toggle" (click)="toggleUserMenu(); $event.stopPropagation()">
-                <i class="bi bi-person-circle"></i>
-                <span>{{ username }}</span>
+            <div class="dropdown">
+                <span class="dropdown-toggle">Products</span>
+                <div class="dropdown-menu">
+                    <a routerLink="/products/a">Product A</a>
+                    <a routerLink="/products/b">Product B</a>
+                </div>
             </div>
 
-            @if (userMenuOpen)
-            {
-            <div class="user-menu" (click)="$event.stopPropagation()">
-                <a routerLink="/account">Account settings</a>
-                <a routerLink="/profile">Profile</a>
-                <button class="theme-toggle" (click)="toggleTheme(); $event.stopPropagation()">
-                    <span class="icon moon">🌙</span>
-                    <span class="icon sun">☀️</span>
-                </button>
-                <hr />
-                <button (click)="logout()">Logout</button>
+            <a routerLink="/users" routerLinkActive="active">Users</a>
+        </nav>
+
+        <!-- RIGHT -->
+        <div class="header-right">
+            <div class="header-right">
+                <i class="">Find</i>
             </div>
-            }
+            <!--Hamburger -->
+            <i class="bi bi-list hamburger" (click)="toggleMenu($event)"></i>
         </div>
-        <!--Hamburger -->
-        <i class="bi bi-list hamburger" (click)="toggleMenu($event)"></i>
     </div>
 </header>

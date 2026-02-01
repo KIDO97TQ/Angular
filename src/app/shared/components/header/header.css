@@ -1,3 +1,85 @@
+.site-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.top-contact-bar {
+    background: var(--header-bg);
+
+    text-align: center;
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+.top-contact-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-left-top-contact,
+.header-right-top-contact {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.top-contact-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.contact-items {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.contact-linkInfo {
+    text-align: center;
+    display: block;
+}
+
+.bi.bi-person-circle {
+    margin-left: 20px;
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+/* giỏ hàng */
+.bi.bi-cart {
+    font-size: 20px;
+    color: #2563eb;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    margin: 0;
+}
+
+.bi:hover,
+.contact-link:hover {
+    transform: scale(1.25);
+}
+
+
+.cart-wrapper {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 8px;
+    right: 0px;
+    background: red;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 999px;
+}
+
+
 /* ===== HEADER ===== */
 .app-header {
     position: sticky;
@@ -105,6 +187,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    margin-right: 10px;
 }
 
 /* HAMBURGER */
@@ -116,36 +199,22 @@
     padding: 0;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    .header-center {
-        position: absolute;
-        top: 64px;
-        left: 0;
-        right: 0;
 
-        background: var(--menu-bg);
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-
-        padding: 16px 0;
-        display: none;
-    }
-
-    .header-center.open {
-        display: flex;
-    }
-
-    .header-right {
-        gap: 6px;
-        justify-content: flex-end;
-    }
-
-    .hamburger {
-        display: block;
-    }
+.brand-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
 }
+
+.logo {
+    width: 250px;
+}
+
+.dark .logo {
+    color: white;
+}
+
 
 .user-dropdown {
     position: relative;
@@ -154,7 +223,6 @@
 .user-toggle {
     display: flex;
     align-items: center;
-    gap: 6px;
     cursor: pointer;
 }
 
@@ -215,4 +283,72 @@
 
 .theme-toggle .icon {
     font-size: 20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .header-center {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+
+        background: var(--menu-bg);
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+
+        padding: 16px 0;
+        display: none;
+    }
+
+    .cart-badge {
+        position: absolute;
+        top: 16px;
+        right: 0px;
+        background: red;
+        color: white;
+        font-size: 10px;
+        padding: 2px 5px;
+        border-radius: 999px;
+    }
+
+    .header-center.open {
+        display: flex;
+    }
+
+    .header-right {
+        gap: 6px;
+        justify-content: flex-end;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .logo {
+        width: 200px;
+    }
+
+    .top-contact-inner {
+        margin-right: 0px;
+    }
+
+    /* .contact-linkInfo {
+        display: none;
+    } */
+}
+
+.top-contact-bar {
+    position: relative;
+}
+
+.top-contact-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--menu-hover);
 }
