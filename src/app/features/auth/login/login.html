@@ -13,7 +13,7 @@
 
                     <div class="input-field">
                         <i class="bi bi-person"></i>
-                        <input type="text" formControlName="username" placeholder="Username"
+                        <input type="text" formControlName="username" placeholder="Tên đăng nhập hoặc sđt"
                             [class.error-input]="formLogin.controls.username.invalid && formLogin.controls.username.touched" />
                     </div>
                     @if (formLogin.controls.username.invalid && formLogin.controls.username.touched) {
@@ -22,7 +22,7 @@
 
                     <div class="input-field">
                         <i class="bi bi-lock"></i>
-                        <input type="password" formControlName="password" placeholder="Password"
+                        <input type="password" formControlName="password" placeholder="Mật khẩu"
                             [class.error-input]="formLogin.controls.password.invalid && formLogin.controls.password.touched" />
                     </div>
                     @if (formLogin.controls.password.invalid && formLogin.controls.password.touched) {
@@ -30,10 +30,10 @@
                     }
 
                     <button type="submit" class="btn solid" [disabled]="formLogin.invalid">
-                        Login
+                        Đăng nhập
                     </button>
 
-                    <p class="social-text">Or Sign in with social platforms</p>
+                    <p class="social-text">Hoặc đăng nhập với các nền tảng sau</p>
                     <div class="social-media">
                         <a class="social-icon facebook">
                             <i class="bi bi-facebook"></i>
@@ -54,7 +54,7 @@
                     <div class="input-field username-field">
                         <i class="bi bi-person"></i>
 
-                        <input type="text" formControlName="username" placeholder="Username" />
+                        <input type="text" formControlName="username" placeholder="Tên đăng nhập" />
 
                         @if (signupForm.controls.username.pending) {
                         <span class="status-icon spinner"></span>
@@ -77,31 +77,33 @@
                     signupForm.controls.username.errors?.['minlength'] &&
                     signupForm.controls.username.touched
                     ) {
-                    <p class="error-message">Username must be at least 3 characters</p>
+                    <p class="error-message">Tên đăng nhập phải lớn hơn 3 ký tự</p>
                     }
 
 
                     <div class="input-field">
-                        <i class="bi bi-envelope"></i>
-                        <input type="email" formControlName="email" placeholder="Email" />
+                        <i class="bi bi-telephone"></i>
+                        <input type="tel" formControlName="phone" placeholder="Số điện thoại" />
                     </div>
-                    @if (signupForm.controls.email.invalid) {
-                    <p class="error-message">Vui lòng nhập đúng định dạng</p>
+                    @if ((signupForm.controls.email.invalid) &&
+                    (signupForm.controls.email.touched || signupForm.controls.email.dirty)) {
+                    <p class="error-message">Số điện thoại không hợp lệ</p>
                     }
 
                     <div class="input-field">
                         <i class="bi bi-lock"></i>
-                        <input type="password" formControlName="password" placeholder="Password" />
+                        <input type="password" formControlName="password" placeholder="Mật khẩu" />
                     </div>
-                    @if (signupForm.controls.password.invalid) {
-                    <p class="error-message">Chiều dài password phải => 6</p>
+                    @if ((signupForm.controls.password.invalid) &&
+                    (signupForm.controls.password.touched || signupForm.controls.password.dirty)) {
+                    <p class="error-message">Chiều dài mật khẩu phải lớn hơn 6 ký tự</p>
                     }
 
                     <button type="submit" class="btn" [disabled]="signupForm.invalid || signupForm.pending">
-                        Sign up
+                        Đăng ký
                     </button>
 
-                    <p class="social-text">Or Sign up with social platforms</p>
+                    <p class="social-text">Hoặc đăng nhập với các nền tảng sau</p>
                     <div class="social-media">
                         <a class="social-icon facebook">
                             <i class="bi bi-facebook"></i>
@@ -129,7 +131,7 @@
                         Đăng ký ngay để nhận được các ưu đãi, phần thưởng và giảm giá độc quyền!
                     </p>
                     <button class="btn transparent" (click)="toggleMode()">
-                        Sign up
+                        Đăng ký
                     </button>
                 </div>
                 <img src="assets/log.svg" class="image" alt="" />
@@ -143,7 +145,7 @@
                         Bạn đã có tài khoản? Đăng nhập để tiếp tục hành trình cùng chúng tôi!
                     </p>
                     <button class="btn transparent" (click)="toggleMode()">
-                        Sign in
+                        Đăng nhập
                     </button>
                 </div>
                 <img src="assets/register.svg" class="image" alt="" />

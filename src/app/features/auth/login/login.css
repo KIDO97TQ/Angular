@@ -244,13 +244,14 @@ form.sign-in-form {
     font-weight: 600;
     line-height: 1;
     font-size: 1.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 
 .panel p {
     font-size: 0.95rem;
     padding: 0.7rem 0;
 }
+
 
 .btn.transparent {
     margin: 0;
@@ -260,6 +261,7 @@ form.sign-in-form {
     height: 41px;
     font-weight: 600;
     font-size: 0.8rem;
+    margin-top: 5px;
 }
 
 .btn.transparent:hover {
@@ -391,9 +393,9 @@ form.sign-in-form {
 }
 
 /* ========== RESPONSIVE ========== */
-@media (max-width: 870px) {
+@media (max-width: 768px) {
     .auth-container {
-        min-height: 800px;
+        min-height: 600px;
         height: 100vh;
     }
 
@@ -498,6 +500,56 @@ form.sign-in-form {
         padding: 40px 30px;
         margin: 20px;
     }
+
+    .input-field {
+        max-width: 300px;
+        width: 100%;
+        background: #f0f0f0;
+        margin: 10px 10px;
+        height: 35px;
+        border-radius: 55px;
+        display: flex;
+        grid-template-columns: 15% 85%;
+        padding: 0 0.4rem;
+        position: relative;
+        transition: all 0.3s;
+        align-items: center;
+        padding-left: 10px;
+    }
+
+    .input-field input {
+        padding-left: 10px;
+    }
+
+    .title {
+        font-size: 2.0rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .social-icon i {
+        font-size: 15px;
+        /* đổi số theo ý bạn */
+    }
+
+    .social-icon.facebook,
+    .social-icon.google,
+    .social-icon.linkedin {
+        width: 30px;
+        height: 30px;
+    }
+
+    .btn {
+        width: 120px;
+        height: 40px;
+    }
+
+    .panel .content {
+        transition: transform 0.9s ease-in-out;
+        transition-delay: 0.6s;
+        height: 100px;
+    }
+
 }
 
 @media (max-width: 570px) {

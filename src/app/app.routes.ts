@@ -19,5 +19,6 @@ export const routes: Routes = [
     //             .then(m => m.CheckoutComponent),
     //     canActivate: [authGuard]
     // },
+    { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent }
 ];

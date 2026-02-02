@@ -44,12 +44,24 @@
 .contact-link {
     gap: 6px;
     display: flex;
+    text-decoration: none;
+    color: var(--text);
 }
 
 .bi.bi-person-circle {
     margin-left: 20px;
     margin-right: 5px;
     font-size: 18px;
+}
+
+.bi.bi-door-open {
+    margin-left: 15px;
+    margin-right: 2px;
+    font-size: 18px;
+}
+
+.bi {
+    color: #2563eb;
 }
 
 /* giỏ hàng */

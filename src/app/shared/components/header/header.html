@@ -5,25 +5,27 @@
             <div class="header-left-top-contact">
                 <div class="top-contact-content">
                     <div class="contact-items">
-                        <span href="tel:0123456789" class="contact-link">
+                        <a href="tel:0988424735" class="contact-link">
                             <i class="bi bi-telephone-fill"></i>
                             <span class="contact-linkInfo">098.8424.735</span>
-                        </span>
+                        </a>
 
-                        <span href="mailto:contact@demo.com" class="contact-link">
+                        <a href="https://www.facebook.com/share/1HmHCkZYNk/?mibextid=wwXIfr" class="contact-link"
+                            target="_blank" rel="noopener noreferrer">
                             <i class="bi bi-facebook"></i>
                             <span class="contact-linkInfo">LuongEm</span>
-                        </span>
+                        </a>
 
                         <span class="contact-link">
                             <i class="bi bi-clock-fill"></i>
                             <span class="contact-linkInfo">Mở cửa từ 8:00 - 22:00</span>
                         </span>
 
-                        <span class="contact-link">
+                        <a href="https://maps.app.goo.gl/uv7ui9B1ny5nyGAJA" class="contact-link" target="_blank"
+                            rel="noopener noreferrer">
                             <i class="bi bi-geo-alt"></i>
                             <span class="contact-linkInfo">Map</span>
-                        </span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -38,7 +40,7 @@
                         }
                         @else
                         {
-                        <i class="bi bi-door-open"></i>
+                        <i routerLink="/login" class="bi bi-door-open" (click)="$event.stopPropagation()"></i>
                         <span>Login</span>
                         }
                     </div>
