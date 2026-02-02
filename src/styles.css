@@ -7,6 +7,8 @@
 
     --menu-bg: #f9fafb;
     --menu-hover: #e5e7eb;
+
+    --dropdown: #e5e7eb;
 }
 
 /* ===== DARK ===== */
@@ -19,6 +21,8 @@
 
     --menu-bg: #374151;
     --menu-hover: #4B4B4B;
+
+    --dropdown: #4B4B4B;
 }
 
 

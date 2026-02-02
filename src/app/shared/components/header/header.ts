@@ -41,6 +41,8 @@ export class HeaderComponent {
   }
 
   logout() {
+    this.userMenuOpen = false;
+    this.menuOpen = false;
     this.auth.logout();
     this.router.navigate(['/login']);
   }
