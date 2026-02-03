@@ -2,6 +2,9 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .top-contact-bar {
@@ -61,7 +64,8 @@
 }
 
 .bi {
-    color: #2563eb;
+    color: #eeb20f;
+    ;
 }
 
 /* giỏ hàng */
@@ -71,6 +75,11 @@
     cursor: pointer;
     transition: transform 0.2s ease, color 0.2s ease;
     margin: 0;
+}
+
+.cart-icon {
+    position: relative;
+    display: inline-block;
 }
 
 .bi:hover,
@@ -85,13 +94,21 @@
 
 .cart-badge {
     position: absolute;
-    top: 5px;
-    right: 8px;
+    top: -6px;
+    right: -8px;
     background: red;
     color: white;
     font-size: 10px;
     padding: 2px 5px;
     border-radius: 999px;
+    text-align: center;
+
+    min-width: 18px;
+    height: 18px;
+    line-height: 18px;
+
+    border-radius: 50%;
+    padding: 0 1px;
 }
 
 .search-wrapper {
@@ -144,7 +161,7 @@
 
 /* ===== HEADER ===== */
 .app-header {
-    position: sticky;
+    position: relative;
     top: env(safe-area-inset-top);
     z-index: 1000;
 
@@ -390,17 +407,6 @@
         display: block;
     }
 
-    .cart-badge {
-        position: absolute;
-        top: 16px;
-        right: 0px;
-        background: red;
-        color: white;
-        font-size: 10px;
-        padding: 2px 5px;
-        border-radius: 999px;
-    }
-
     .header-center.open {
         display: flex;
     }
@@ -465,12 +471,12 @@
 
     .bi.bi-person-circle {
         margin-left: 20px;
-        margin-right: 10px;
+        margin-right: 5px;
     }
 
     .bi.bi-door-open {
-        margin-left: 15px;
-        margin-right: 10px;
+        margin-left: 20px;
+        margin-right: 2px;
     }
 }
 

@@ -85,8 +85,8 @@
                         <i class="bi bi-telephone"></i>
                         <input type="tel" formControlName="phone" placeholder="Số điện thoại" />
                     </div>
-                    @if ((signupForm.controls.email.invalid) &&
-                    (signupForm.controls.email.touched || signupForm.controls.email.dirty)) {
+                    @if ((signupForm.controls.phone.invalid) &&
+                    (signupForm.controls.phone.touched || signupForm.controls.phone.dirty)) {
                     <p class="error-message">Số điện thoại không hợp lệ</p>
                     }
 

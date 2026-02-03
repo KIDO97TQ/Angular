@@ -10,19 +10,19 @@ export const login = async (req, res) => {
         // 1️⃣ Validate input
         if (!user || !pass) {
             return res.status(400).json({
-                message: "Missing username or password"
+                message: "Thiếu tài khoản hoặc mật khẩu"
             });
         }
 
         // 2️⃣ Tìm user
         const result = await pool.query(
-            "SELECT id, username, password FROM clothings.userskido WHERE username = $1",
+            "SELECT id, username, password FROM clothings.userskido WHERE username = $1 OR email = $1",
             [user]
         );
 
         if (result.rows.length === 0) {
             return res.status(401).json({
-                message: "Invalid username"
+                message: "Tài khoản không tồn tại"
             });
         }
 
@@ -33,7 +33,7 @@ export const login = async (req, res) => {
 
         if (!isMatch) {
             return res.status(401).json({
-                message: "Invalid password"
+                message: "Sai mật khẩu"
             });
         }
 
@@ -103,13 +103,11 @@ export const checkUsername = async (req, res) => {
 // ========== 3. SIGNUP (Đăng ký user mới) ==========
 export const signup = async (req, res) => {
     try {
-        const { user, email, pass } = req.body;
-
-        console.log(req.body);
+        const { user, phone, pass } = req.body;
         // Validate input
-        if (!user || !email || !pass) {
+        if (!user || !phone || !pass) {
             return res.status(400).json({
-                message: "All fields are required"
+                message: "Tất cả các thông tin cần điền hết"
             });
         }
 
@@ -121,19 +119,19 @@ export const signup = async (req, res) => {
 
         if (pass.length < 6) {
             return res.status(400).json({
-                message: "Password must be at least 6 characters"
+                message: "Mật khẩu phải dài hơn 6 ký tự"
             });
         }
 
-        // Check username or email already exists
+        // Check username or phone already exists
         const { rows: existingUsers } = await pool.query(
             "SELECT COUNT(*) as count FROM clothings.userskido WHERE username = $1 OR email = $2",
-            [user, email]
+            [user, phone]
         );
 
         if (parseInt(existingUsers[0].count) > 0) {
             return res.status(409).json({
-                message: "Username or email already exists"
+                message: "Tài khoản hoặc số điện thoại đã tồn tại"
             });
         }
 
@@ -146,7 +144,7 @@ export const signup = async (req, res) => {
             `INSERT INTO clothings.userskido (username, email, password) 
              VALUES ($1, $2, $3) 
              RETURNING id, username, email`,
-            [user, email, hashedPassword]
+            [user, phone, hashedPassword]
         );
 
         const newUser = rows[0];
@@ -156,7 +154,7 @@ export const signup = async (req, res) => {
             user: {
                 id: newUser.id,
                 username: newUser.username,
-                email: newUser.email
+                phone: newUser.email
             }
         });
 

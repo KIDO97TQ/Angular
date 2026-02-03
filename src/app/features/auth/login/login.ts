@@ -53,9 +53,12 @@ export class LoginComponent {
       ],
       updateOn: 'blur' //khuyên dùng
     }),
-    email: new FormControl<string>('', {
+    phone: new FormControl<string>('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.email]
+      validators: [
+        Validators.required,
+        Validators.pattern(/^(\+84|0)(3|5|7|8|9)[0-9]{8}$/)
+      ]
     }),
     password: new FormControl<string>('', {
       nonNullable: true,
@@ -87,9 +90,11 @@ export class LoginComponent {
 
     this.userService.login(payload).subscribe({
       next: (res: any) => {
+        console.log('LOGIN RESPONSE:', res);
+        this.username = res.user.username;
         this.formLogin.reset();
         this.authService.saveToken(res.token);
-        this.authService.setUsername(username);
+        this.authService.setUsername(res.user.username);
         this.isLoggedIn = true;
         this.router.navigate(['/products']);
       },
@@ -102,17 +107,18 @@ export class LoginComponent {
   // SIGNUP SUBMIT
   submitSignup() {
     if (this.signupForm.invalid) {
-      alert('Please fill all fields correctly!');
+      alert('Vui lòng điền các thông tin chính xác!');
       return;
     }
 
-    const { username, email, password } = this.signupForm.getRawValue();
+    const { username, phone, password } = this.signupForm.getRawValue();
 
     const payload = {
       user: username,
-      email: email,
+      phone: phone,
       pass: password
     };
+    console.log(payload);
 
     this.userService.signup(payload).subscribe({
       next: (res: any) => {
@@ -120,14 +126,12 @@ export class LoginComponent {
         this.isSignupMode = false;
         this.isLoggedIn = false;
         this.cd.detectChanges(); //thêm để hết lỗi Angular đã check xong view rồi, nhưng giá trị bind lại bị đổi ngay sau đó
-        this.toastr.success('Signup successful! Please login.', 'Success');
+        this.toastr.success('Đăng ký thành công. Vui lòng đăng nhập', 'Success');
       },
       error: (ee) => {
         alert(ee.error.message);
       }
     });
-
-    console.log('Signup payload:', payload);
   }
 
   // LOGOUT

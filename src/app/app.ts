@@ -1,6 +1,7 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/components/header/header';
+import { FooterComponent } from './shared/components/footer/footer';
 import { CommonModule } from '@angular/common';
 import { ProductService } from './Core/services/product';
 import { AuthService } from '../app/Core/auth/auth-service';
@@ -9,7 +10,7 @@ import { AuthService } from '../app/Core/auth/auth-service';
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, CommonModule],
+  imports: [RouterOutlet, HeaderComponent, CommonModule, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
