@@ -1,6 +1,6 @@
-<header class="site-header">
+<div class="site-header" [class.hide-top]="hideTopBar">
     <!-- TOP BAR - Contact Info -->
-    <div class="top-contact-bar">
+    <header class="top-contact-bar">
         <div class="top-contact-inner">
             <div class="header-left-top-contact">
                 <div class="top-contact-content">
@@ -66,11 +66,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
     <!-- MAIN HEADER - Logo, Menu, User -->
     <!-- LEFT -->
-    <div class="app-header">
+    <header class="app-header">
         <div class="header-left">
             <a routerLink="/" class="brand-logo">
                 <svg viewBox="0 0 440 90" xmlns="http://www.w3.org/2000/svg" class="logo">
@@ -115,5 +115,5 @@
             </div>
             <i class="bi bi-list hamburger" (click)="toggleMenu($event)"></i>
         </div>
-    </div>
-</header>
+    </header>
+</div>

@@ -22,6 +22,13 @@ export class HeaderComponent {
   menuOpen = false;
   userMenuOpen = false;
 
+  hideTopBar = false;
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.hideTopBar = window.scrollY > 50;
+  }
+
   @HostListener('document:click')
   closeUserMenu() {
     this.userMenuOpen = false;
