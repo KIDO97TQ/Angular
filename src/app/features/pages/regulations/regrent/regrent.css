@@ -1,0 +1,80 @@
+.rules-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #faf7f5, #ffffff);
+    padding: 20px 20px;
+    font-family: "Poppins", "Sora", sans-serif;
+    color: #2c2c2c;
+}
+
+.rules-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.rules-title {
+    font-size: 42px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.rules-subtitle {
+    text-align: center;
+    font-size: 20px;
+    color: #9a7b6f;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.rules-content {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.rule-item {
+    margin-bottom: 32px;
+}
+
+.rule-item h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.rule-item p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #444;
+}
+
+.rule-note {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #eee;
+}
+
+.rule-note p {
+    font-size: 15px;
+    color: #666;
+    font-style: italic;
+    line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .rules-title {
+        font-size: 32px;
+    }
+
+    .rules-content {
+        padding: 24px;
+    }
+
+    .rule-item p {
+        font-size: 15px;
+    }
+}

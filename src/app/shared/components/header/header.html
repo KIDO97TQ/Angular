@@ -48,8 +48,8 @@
                     @if (userMenuOpen)
                     {
                     <div class="user-menu" (click)="$event.stopPropagation()">
-                        <a routerLink="/account">Account settings</a>
-                        <a routerLink="/profile">Profile</a>
+                        <a class="Linkpage" routerLink="/account">Account settings</a>
+                        <a class="Linkpage" routerLink="/profile">Profile</a>
                         <button class="theme-toggle" (click)="toggleTheme(); $event.stopPropagation()">
                             <span class="icon moon">🌙</span>
                             <span class="icon sun">☀️</span>
@@ -89,7 +89,7 @@
         <!-- CENTER MENU -->
         <nav class="header-center" [class.open]="menuOpen">
             <a class="Linkpage" routerLink="/" routerLinkActive="active">Trang chủ</a>
-            <a class="Linkpage" routerLink="/chuaco" routerLinkActive="active">Giới thiệu</a>
+            <a class="Linkpage" routerLink="/about" routerLinkActive="active">Giới thiệu</a>
             <div class="dropdown">
                 <span class="dropdown-toggle">Sản phẩm</span>
                 <div class="dropdown-menu">
@@ -101,8 +101,8 @@
                     <a class="Linkpage" routerLink="/products/b">Dày</a>
                 </div>
             </div>
-            <a class="Linkpage" routerLink="/chuaco" routerLinkActive="active">Liên hệ</a>
-            <a class="Linkpage" routerLink="/users" routerLinkActive="Abount">Hướng dẫn</a>
+            <a class="Linkpage" routerLink="/contact" routerLinkActive="active">Liên hệ</a>
+            <a class="Linkpage" routerLink="/guidcontent" routerLinkActive="Abount">Hướng dẫn</a>
         </nav>
 
         <!-- RIGHT -->

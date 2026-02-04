@@ -1,0 +1,71 @@
+.about-amy {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #faf7f5, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    color: #2c2c2c;
+    font-family: "Poppins", "Sora", sans-serif;
+}
+
+.about-container {
+    max-width: 900px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.brand-name {
+    font-size: 64px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    margin-bottom: 8px;
+}
+
+.brand-slogan {
+    font-size: 20px;
+    color: #9a7b6f;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.about-content {
+    font-size: 17px;
+    line-height: 1.9;
+    color: #444;
+}
+
+.about-content p {
+    margin-bottom: 24px;
+}
+
+.about-content strong {
+    color: #000;
+    font-weight: 600;
+}
+
+.about-content .highlight {
+    margin-top: 32px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .brand-name {
+        font-size: 44px;
+        letter-spacing: 4px;
+    }
+
+    .brand-slogan {
+        font-size: 16px;
+    }
+
+    .about-content {
+        font-size: 16px;
+    }
+}
