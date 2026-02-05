@@ -1,0 +1,44 @@
+<section class="featured-philosophy">
+
+    <!-- Cụm ảnh -->
+    <div class="fp-images">
+
+        <!-- Cột trái -->
+        <div class="fp-image-col">
+            <span class="fp-image-label">SẢN PHẨM NỔI BẬT CỦA THÁNG</span>
+
+            <div class="fp-image-box">
+                <img *ngFor="let img of imagesLeft; let i = index" [src]="img" [class.active]="i === currentLeft">
+            </div>
+        </div>
+
+        <!-- Cột phải -->
+        <div class="fp-image-col">
+            <span class="fp-image-label">SẢN PHẨM ĐƯỢC YÊU THÍCH NHẤT</span>
+
+            <div class="fp-image-box">
+                <img *ngFor="let img of imagesRight; let i = index" [src]="img" [class.active]="i === currentRight">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Triết lý -->
+    <div class="intro">
+        <div class="intro-inner">
+            <span class="intro-tag">AMY STUDIO</span>
+
+            <h2>
+                Vẻ đẹp không đến từ<br>
+                sự cầu kỳ
+            </h2>
+
+            <p>
+                AMY tuyển chọn những thiết kế tinh giản nhưng tinh tế,
+                tôn dáng và phù hợp với nhiều khoảnh khắc khác nhau.
+            </p>
+
+            <a class="fp-link">Khám phá bộ sưu tập</a>
+        </div>
+    </div>
+</section>

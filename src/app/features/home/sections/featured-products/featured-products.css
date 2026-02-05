@@ -1,0 +1,200 @@
+.featured-philosophy {
+    padding: 20px 80px;
+    background: linear-gradient(135deg, #f8f7f4 0%, #ffffff 100%);
+}
+
+/* 2 ảnh trên */
+.fp-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.fp-image-box {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+}
+
+.fp-image-box img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out;
+}
+
+.fp-image-box img.active {
+    opacity: 1;
+}
+
+/* Triết lý bên dưới */
+
+.intro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f8f7f4 0%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hiệu ứng nền tinh tế */
+.intro::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(218, 165, 140, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.intro::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(194, 178, 168, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.intro-inner {
+    max-width: 650px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Tag cao cấp */
+.intro-tag {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8b7355;
+    padding: 10px 28px;
+    border: 1px solid #dac5b3;
+    border-radius: 30px;
+    margin-bottom: 28px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro-tag:hover {
+    transform: translateY(-2px);
+    border-color: #8b7355;
+    box-shadow: 0 8px 20px rgba(139, 115, 85, 0.12);
+}
+
+/* Heading sang trọng */
+.intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #2c2420;
+    margin: 0 0 24px 0;
+    letter-spacing: -0.5px;
+}
+
+.intro h2 br {
+    display: block;
+}
+
+/* Paragraph tinh tế */
+.intro p {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(15px, 1.8vw, 17px);
+    font-weight: 300;
+    line-height: 1.7;
+    color: #6b5d54;
+    max-width: 550px;
+    margin: 0 auto;
+    letter-spacing: 0.3px;
+}
+
+.fp-link {
+    font-size: 14px;
+    color: #000;
+    border-bottom: 1px solid #000;
+    padding-bottom: 4px;
+    text-decoration: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .featured-philosophy {
+        padding: 80px 20px;
+    }
+
+    .fp-images {
+        grid-template-columns: 1fr;
+        margin-bottom: 48px;
+    }
+
+    .fp-image-box {
+        height: 320px;
+    }
+
+    .fp-content h2 {
+        font-size: 28px;
+    }
+
+}
+
+/* Text trên ảnh */
+
+.fp-image-box {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+}
+
+/* mỗi cột */
+.fp-image-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.fp-image-label {
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #070707;
+    font-weight: bold;
+}
+
+/* box ảnh */
+.fp-image-box {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+}
+
+.fp-image-box img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out;
+}
+
+.fp-image-box img.active {
+    opacity: 1;
+}

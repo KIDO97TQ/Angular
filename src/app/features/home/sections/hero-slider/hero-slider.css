@@ -1,0 +1,154 @@
+.slider {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+/* Slide */
+.slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 20%;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+/* Overlay căn giữa */
+.slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+}
+
+/* Text animation */
+.slide-title {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 0px;
+    opacity: 0;
+    animation: textUp 0.8s ease forwards;
+    animation-delay: 0.3s;
+}
+
+.slide-desc {
+    font-size: 16px;
+    max-width: 520px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: textUp 0.8s ease forwards;
+    animation-delay: 0.6s;
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 1;
+    animation: fadeSlide 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slide:not(.active) .slide-title,
+.slide:not(.active) .slide-desc {
+    opacity: 0;
+    animation: none;
+}
+
+.slide.active .slide-title {
+    animation: textUp 1.2s ease forwards;
+    animation-delay: 0.8s;
+}
+
+.slide.active .slide-desc {
+    animation: textUp 1.2s ease forwards;
+    animation-delay: 1.2s;
+}
+
+/* Fade ảnh */
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: scale(1.03);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Text từ dưới lên */
+@keyframes textUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navigation */
+.nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 2;
+    background: none;
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.prev {
+    left: 16px;
+}
+
+.next {
+    right: 16px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .slider {
+        height: 300px;
+    }
+
+    .slide-title {
+        font-size: 24px;
+    }
+
+    .slide-desc {
+        font-size: 14px;
+    }
+
+    .slide {
+        background-size: cover;
+    }
+}
+
+/* @media (min-width: 1024px) {
+    .slide {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: #111;
+    }
+}
+
+@media (max-width: 1023px) {
+    .slide {
+        background-size: cover;
+    }
+} */

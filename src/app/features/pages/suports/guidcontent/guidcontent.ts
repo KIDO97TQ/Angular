@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-guidcontent',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './guidcontent.html',
   styleUrl: './guidcontent.css',
 })

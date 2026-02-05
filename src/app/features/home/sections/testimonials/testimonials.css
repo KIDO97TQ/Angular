@@ -1,0 +1,60 @@
+.cta-booking {
+    padding: 30px 20px;
+    background: #111;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+}
+
+.cta-inner {
+    max-width: 640px;
+    text-align: center;
+}
+
+.cta-tag {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #aaa;
+}
+
+.cta-inner h2 {
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 32px 0;
+}
+
+.cta-inner p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #ccc;
+    margin-bottom: 48px;
+}
+
+/* Nút CTA */
+.cta-button {
+    display: inline-block;
+    padding: 14px 48px;
+    border: 1px solid #fff;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+}
+
+.cta-button:hover {
+    background: #fff;
+    color: #111;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .cta-booking {
+        padding: 120px 20px;
+    }
+
+    .cta-inner h2 {
+        font-size: 30px;
+    }
+}

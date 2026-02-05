@@ -1,7 +1,7 @@
 .contact-page {
     min-height: 100vh;
     background: linear-gradient(180deg, #faf7f5, #ffffff);
-    padding: 80px 20px;
+    padding: 20px 20px;
     font-family: "Poppins", "Sora", sans-serif;
 }
 
@@ -19,10 +19,10 @@
 
 .page-slogan {
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     color: #9a7b6f;
     letter-spacing: 2px;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
 }
 
 .contact-wrapper {
@@ -183,4 +183,9 @@
     .contact-form {
         padding: 24px;
     }
+}
+
+.form-group input,
+.form-group textarea {
+    box-sizing: border-box;
 }

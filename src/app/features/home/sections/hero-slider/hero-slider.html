@@ -1,0 +1,13 @@
+<div class="slider">
+    @for (slide of slides; track $index) {
+    <div class="slide" [class.active]="$index === currentIndex" [style.backgroundImage]="'url(' + slide.image + ')'">
+        <div class="slide-overlay">
+            <h2 class="slide-title">{{ slide.title }}</h2>
+            <p class="slide-desc">{{ slide.description }}</p>
+        </div>
+    </div>
+    }
+
+    <button class="nav prev" (click)="prevSlide()">❮</button>
+    <button class="nav next" (click)="nextSlide()">❯</button>
+</div>

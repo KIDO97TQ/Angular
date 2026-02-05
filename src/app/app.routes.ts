@@ -96,7 +96,7 @@ export const routes: Routes = [
     // },
     {
         path: 'login',
-        loadChildren: () =>
+        loadComponent: () =>
             import('./features/auth/login/login')
                 .then(m => m.LoginComponent)
     }
