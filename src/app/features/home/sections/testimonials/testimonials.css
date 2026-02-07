@@ -7,7 +7,7 @@
 }
 
 .cta-inner {
-    max-width: 640px;
+    max-width: 540px;
     text-align: center;
 }
 
@@ -51,7 +51,7 @@
 /* Mobile */
 @media (max-width: 768px) {
     .cta-booking {
-        padding: 120px 20px;
+        padding: 30px 20px;
     }
 
     .cta-inner h2 {

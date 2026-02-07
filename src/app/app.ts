@@ -31,16 +31,16 @@ export class App implements OnInit {
   }
 
   ngOnInit() {
-    this.productService.getProducts().subscribe({
-      next: (res) => {
-        this.products.set(res.products);
-        this.productService.loading.set(false);
-      },
-      error: () => {
-        this.productService.error.set('Lỗi load dữ liệu');
-        this.productService.loading.set(false);
-      }
-    });
+    // this.productService.getProducts().subscribe({
+    //   next: (res) => {
+    //     this.products.set(res.products);
+    //     this.productService.loading.set(false);
+    //   },
+    //   error: () => {
+    //     this.productService.error.set('Lỗi load dữ liệu');
+    //     this.productService.loading.set(false);
+    //   }
+    // });
   }
 
 }

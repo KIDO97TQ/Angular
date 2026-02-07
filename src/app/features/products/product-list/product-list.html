@@ -1,11 +1,99 @@
-<button (click)="goCreate()">➕ Thêm sản phẩm</button>
+<div class="rental-showcase">
+    <!-- Creative Header với Geometric Shapes -->
+    <section class="hero-header">
+        <div class="geometric-bg">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="display-title">
+                <span class="title-line">{{ title | titlecase }}</span>
+                <span class="title-decoration">✦</span>
+            </h1>
+            <p class="hero-description">
+                Tuyển chọn những thiết kế phù hợp cho khoảnh khắc trang trọng của bạn
+            </p>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-number">{{ products.length }}+</span>
+                    <span class="stat-label">Sản phẩm</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Chất lượng</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Hỗ trợ</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-@if (productService.loading()) {
-<p>⏳ Loading...</p>
-}
+    <!-- Product Grid -->
+    <section class="product-grid-section">
+        <div class="container">
+            <!-- Show current page info -->
+            <!-- <div class="page-info">
+                <p>Hiển thị {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage * itemsPerPage,
+                    products.length) }} trong tổng số {{ products.length }} sản phẩm</p>
+            </div> -->
 
-@for (p of products(); track p.id) {
-<div (click)="goDetail(p)">
-    {{ p.title }} - {{ p.price }}
+            <div class="product-grid">
+                <div class="product-item" *ngFor="let item of paginatedProducts">
+                    <div class="product-card">
+                        <div class="image-wrapper">
+                            <img [src]="'https://raw.githubusercontent.com/kido1997/ImageLuongEm/main/ImageLuongEm/' + item.id + '.jpg'"
+                                [alt]="item.productname" loading="lazy">
+                            <div class="image-overlay">
+                                <button class="quick-view-btn">Xem nhanh</button>
+                            </div>
+                            <span class="badge-new">Mới</span>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">{{ item.productname }}</h3>
+                            <div class="product-meta">
+                                <span class="price">{{ item.productprice | currency:'VND':'symbol':'1.0-0' }}</span>
+                                <span class="price-label">/ ngày</span>
+                            </div>
+                            <button class="btn-rent">Thuê ngay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-wrapper" *ngIf="totalPages > 1">
+                <nav class="pagination">
+                    <button class="pagination-btn prev-btn" (click)="previousPage()" [disabled]="currentPage === 1">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" />
+                        </svg>
+                        <span>Trước</span>
+                    </button>
+
+                    <div class="page-numbers">
+                        <button *ngFor="let page of getPageNumbers()" class="page-number"
+                            [class.active]="page === currentPage" [class.ellipsis]="page === -1"
+                            [disabled]="page === -1" (click)="page !== -1 && goToPage(page)">
+                            {{ page === -1 ? '...' : page }}
+                        </button>
+                    </div>
+
+                    <button class="pagination-btn next-btn" (click)="nextPage()"
+                        [disabled]="currentPage === totalPages">
+                        <span>Sau</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" />
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </section>
 </div>
-}

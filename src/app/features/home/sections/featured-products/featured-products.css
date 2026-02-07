@@ -1,5 +1,5 @@
 .featured-philosophy {
-    padding: 20px 80px;
+    padding: 20px 20px;
     background: linear-gradient(135deg, #f8f7f4 0%, #ffffff 100%);
 }
 
@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
+    padding: 60px 10px;
     background: linear-gradient(135deg, #f8f7f4 0%, #ffffff 100%);
     position: relative;
     overflow: hidden;
@@ -124,6 +124,7 @@
     max-width: 550px;
     margin: 0 auto;
     letter-spacing: 0.3px;
+    margin-bottom: 10px;
 }
 
 .fp-link {
@@ -137,7 +138,7 @@
 /* Mobile */
 @media (max-width: 768px) {
     .featured-philosophy {
-        padding: 80px 20px;
+        padding: 30px 20px;
     }
 
     .fp-images {
@@ -153,6 +154,9 @@
         font-size: 28px;
     }
 
+    .intro {
+        padding: 30px 20px 10px 25px;
+    }
 }
 
 /* Text trên ảnh */

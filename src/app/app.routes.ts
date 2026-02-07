@@ -28,7 +28,7 @@ export const routes: Routes = [
                 .then(m => m.HomeComponent)
     },
     {
-        path: 'products',
+        path: 'products/:type',
         loadChildren: () =>
             import('./features/products/products.routes')
                 .then(m => m.productRoutes)

@@ -1,71 +1,294 @@
 .about-amy {
-    min-height: 100vh;
-    background: linear-gradient(180deg, #faf7f5, #ffffff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 20px 20px;
-    color: #2c2c2c;
-    font-family: "Poppins", "Sora", sans-serif;
+    background: linear-gradient(to bottom, #ffffff 0%, #faf9f7 50%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative circles */
+.decor-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.decor-circle-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(218, 165, 140, 0.1) 0%, transparent 70%);
+    top: -100px;
+    right: -50px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.decor-circle-2 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(194, 178, 168, 0.08) 0%, transparent 70%);
+    bottom: -80px;
+    left: -60px;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+.decor-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent, #dac5b3, transparent);
+    opacity: 0.3;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
 .about-container {
-    max-width: 900px;
-    text-align: center;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Brand header with ornaments */
+.brand-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.brand-ornament {
+    font-size: 14px;
+    color: #c2a68c;
+    opacity: 0.6;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
 }
 
 .brand-name {
-    font-size: 64px;
-    font-weight: 600;
-    letter-spacing: 6px;
-    margin-bottom: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 8vw, 90px);
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: #2c2420;
+    margin: 0;
+    background: linear-gradient(135deg, #2c2420 0%, #6b5d54 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.brand-name::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #c2a68c, transparent);
 }
 
 .brand-slogan {
-    font-size: 20px;
-    color: #9a7b6f;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 400;
+    font-style: italic;
+    color: #8b7355;
+    text-align: center;
+    margin: 0 0 60px 0;
     letter-spacing: 2px;
-    margin-bottom: 20px;
+    position: relative;
+}
+
+.brand-slogan::before {
+    content: '—';
+    margin-right: 12px;
+    opacity: 0.5;
+}
+
+.brand-slogan::after {
+    content: '—';
+    margin-left: 12px;
+    opacity: 0.5;
 }
 
 .about-content {
-    font-size: 17px;
-    line-height: 1.9;
-    color: #444;
+    text-align: center;
+    animation: fadeIn 1.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .about-content p {
-    margin-bottom: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(15px, 1.8vw, 17px);
+    font-weight: 300;
+    line-height: 1.9;
+    color: #6b5d54;
+    margin: 0 0 28px 0;
+    letter-spacing: 0.3px;
+}
+
+.first-paragraph {
+    font-size: clamp(16px, 2vw, 18px) !important;
+    color: #4a3f38;
 }
 
 .about-content strong {
-    color: #000;
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
+    font-size: 1.1em;
+    color: #2c2420;
+    letter-spacing: 1px;
 }
 
-.about-content .highlight {
-    margin-top: 32px;
-    font-size: 18px;
+/* Highlight section with quotes */
+.highlight-wrapper {
+    position: relative;
+    margin-top: 50px;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, rgba(218, 165, 140, 0.04) 0%, rgba(194, 178, 168, 0.06) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(218, 197, 179, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    line-height: 1;
+    color: #c2a68c;
+    opacity: 0.3;
+    position: absolute;
+    font-weight: 700;
+}
+
+.quote-mark:first-of-type {
+    top: 10px;
+    left: 20px;
+}
+
+.quote-mark.closing {
+    bottom: 10px;
+    right: 20px;
+    transform: rotate(180deg);
+}
+
+.highlight {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.2vw, 22px) !important;
     font-weight: 500;
-    color: #000;
+    line-height: 1.7 !important;
+    color: #2c2420 !important;
+    margin: 0 !important;
+    letter-spacing: 0.5px !important;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .brand-name {
-        font-size: 44px;
-        letter-spacing: 4px;
+    .about-amy {
+        padding: 20px 24px;
+    }
+
+    .brand-header {
+        gap: 12px;
+    }
+
+    .brand-ornament {
+        font-size: 12px;
+    }
+
+    .brand-name::after {
+        width: 40px;
     }
 
     .brand-slogan {
-        font-size: 16px;
+        margin-bottom: 40px;
     }
 
-    .about-content {
-        font-size: 16px;
+    .about-content p {
+        margin-bottom: 24px;
+    }
+
+    .highlight-wrapper {
+        margin-top: 40px;
+        padding: 30px 25px;
+    }
+
+    .quote-mark {
+        font-size: 45px;
+    }
+
+    .quote-mark:first-of-type {
+        top: 8px;
+        left: 15px;
+    }
+
+    .quote-mark.closing {
+        bottom: 8px;
+        right: 15px;
+    }
+
+    .decor-circle-1,
+    .decor-circle-2 {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .about-amy {
+        padding: 70px 40px;
+    }
+
+    .about-container {
+        max-width: 700px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .about-container {
+        max-width: 850px;
     }
 }
