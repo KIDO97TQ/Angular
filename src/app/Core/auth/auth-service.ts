@@ -12,6 +12,10 @@ export class AuthService {
     localStorage.setItem('username', username);
   }
 
+  setUserID(userID: string) {
+    localStorage.setItem('userID', userID);
+  }
+
   loadUserFromStorage() {
     const username = localStorage.getItem('username');
     if (username) {
@@ -26,7 +30,9 @@ export class AuthService {
   getToken() {
     return localStorage.getItem('token');
   }
-
+  getUserId() {
+    return localStorage.getItem('userID');
+  }
   isLoggedIn(): boolean {
     return !!this.getToken();
   }

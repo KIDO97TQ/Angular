@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import productRoutes from "./routes/products.route.js";
+import cartsRoutes from "./routes/carts.route.js";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/carts", cartsRoutes);
+
 
 try {
     await pool.query("SELECT 1");

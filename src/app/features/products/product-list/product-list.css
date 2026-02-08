@@ -222,7 +222,7 @@
 }
 
 .product-card {
-    background: var(--white);
+    background: white;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
@@ -279,7 +279,7 @@
 
 .quick-view-btn {
     padding: 12px 32px;
-    background: var(--white);
+    background: white;
     color: var(--primary);
     border: none;
     border-radius: 6px;
@@ -298,7 +298,7 @@
 
 .quick-view-btn:hover {
     background: var(--secondary);
-    color: var(--white);
+    color: white;
 }
 
 .badge-new {
@@ -306,7 +306,7 @@
     top: 16px;
     left: 16px;
     background: var(--secondary);
-    color: var(--white);
+    color: white;
     padding: 6px 16px;
     border-radius: 4px;
     font-size: 11px;
@@ -357,13 +357,67 @@
     font-family: 'Lato', sans-serif;
 }
 
+/* gio hang */
+.product-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* Khối text bên trái */
+.product-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.btn-add-cart {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #dddfdb 0%, #e4e3e6 100%);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(6, 39, 189, 0.3);
+    flex-shrink: 0;
+}
+
+.fa-solid.fa-cart-plus {
+    color: red;
+    font-size: 20px;
+    z-index: 9999;
+}
+
+.btn-add-cart:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-add-cart:active {
+    transform: translateY(-1px) scale(1);
+}
+
+.btn-add-cart svg {
+    transition: transform 0.3s ease;
+}
+
+.btn-add-cart:hover svg {
+    transform: scale(1.1);
+}
+
 /* button */
 .btn-rent {
     position: relative;
     width: 100%;
     padding: 14px 24px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: var(--white);
+    color: white;
     border: none;
     border-radius: 12px;
     font-family: 'Lato', sans-serif;
@@ -449,7 +503,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    background: var(--white);
+    background: white;
     padding: var(--space-md);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-soft);
@@ -509,7 +563,7 @@
 
 .page-number.active {
     background: var(--gradient-sunset);
-    color: var(--white);
+    color: white;
     border-color: var(--primary);
     box-shadow: var(--shadow-color);
 }
@@ -525,6 +579,10 @@
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 768px) {
+
+    .quick-view-btn {
+        display: none;
+    }
 
     .product-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

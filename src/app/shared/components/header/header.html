@@ -60,10 +60,14 @@
                     }
                 </div>
                 <span>|</span>
-                <div class="cart-icon">
+                <a class="cart-icon" routerLink="/cart">
                     <i class="bi bi-cart"></i>
-                    <span class="cart-badge">0</span>
-                </div>
+                    @if (cartService.cartCount$ | async; as count) {
+                    @if (count > 0) {
+                    <span class="cart-badge">{{ count }}</span>
+                    }
+                    }
+                </a>
             </div>
         </div>
     </header>

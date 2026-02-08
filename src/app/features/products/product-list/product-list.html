@@ -54,11 +54,25 @@
                             <span class="badge-new">Mới</span>
                         </div>
                         <div class="product-info">
-                            <h3 class="product-name">{{ item.productname }}</h3>
-                            <div class="product-meta">
-                                <span class="price">{{ item.productprice | currency:'VND':'symbol':'1.0-0' }}</span>
-                                <span class="price-label">/ ngày</span>
+
+                            <div class="product-top">
+                                <div class="product-text">
+                                    <h3 class="product-name">{{ item.productname }}</h3>
+
+                                    <div class="product-meta">
+                                        <span class="price">
+                                            {{ item.productprice | currency:'VND':'symbol':'1.0-0' }}
+                                        </span>
+                                        <span class="price-label">/ ngày</span>
+                                    </div>
+                                </div>
+
+                                <button class="btn-add-cart" (click)="addToCart(item); $event.stopPropagation()"
+                                    title="Thêm vào giỏ hàng">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
                             </div>
+
                             <button class="btn-rent">Thuê ngay</button>
                         </div>
                     </div>

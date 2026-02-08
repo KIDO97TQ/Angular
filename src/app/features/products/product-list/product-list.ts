@@ -4,6 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../Core/services/product';
 import { Subscription } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
+import { CartsService } from '../../../Core/services/carts';
+import { AuthService } from '../../../Core/auth/auth-service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface Product {
   id: number;
@@ -22,6 +25,9 @@ export interface Product {
   styleUrl: './product-list.css',
 })
 export class ProductListComponent implements OnDestroy {
+  CartsService = inject(CartsService);
+  authService = inject(AuthService);
+  toastr = inject(ToastrService);
 
   private readonly TYPE_TITLE_MAP: Record<string, string> = {
     'ao-dai': 'Áo dài',
@@ -37,6 +43,7 @@ export class ProductListComponent implements OnDestroy {
 
   title = '';
   type = '';
+  userId: string = '';
   products: Product[] = [];
   sub!: Subscription;
 
@@ -160,5 +167,27 @@ export class ProductListComponent implements OnDestroy {
     this.sub.unsubscribe();
   }
 
+  addToCart(item: any) {
+    console.log('CLICKED', item);
 
+    if (!this.authService.isLoggedIn()) {
+      this.toastr.error('Bạn cần đăng nhập trước mới có thể mua hàng', 'Error');
+      this.router.navigate(['/login'], {
+        queryParams: {
+          returnUrl: this.router.url
+        }
+      });
+      return;
+    }
+
+    this.userId = this.authService.getUserId()!;
+    this.CartsService.addToCart(this.userId, item).subscribe({
+      next: () => {
+        this.toastr.success('Đã thêm vào giỏ hàng', 'Success');
+      },
+      error: (err) => {
+        this.toastr.error(err.error?.message || 'Lỗi thêm giỏ hàng', 'Error');
+      }
+    });
+  }
 }

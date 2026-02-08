@@ -2,6 +2,7 @@ import { Component, inject, HostListener } from '@angular/core';
 import { AuthService } from '../../../Core/auth/auth-service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { CommonModule } from '@angular/common';
+import { CartsService } from '../../../Core/services/carts';
 
 
 interface User {
@@ -19,6 +20,7 @@ interface User {
 export class HeaderComponent {
   auth = inject(AuthService);
   router = inject(Router);
+  cartService = inject(CartsService);
   menuOpen = false;
   userMenuOpen = false;
 
@@ -38,14 +40,21 @@ export class HeaderComponent {
   authService = inject(AuthService);
   username: string | null = null;
 
-
   ngOnInit() {
+    const userId = this.authService.getUserId();
+
+    if (userId) {
+      this.cartService.loadCartCount(userId).subscribe();
+    }
+
     this.authService.user$.subscribe(name => {
       this.username = name;
     });
+
     const saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
   }
+
 
   logout() {
     this.userMenuOpen = false;

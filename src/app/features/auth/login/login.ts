@@ -95,8 +95,9 @@ export class LoginComponent {
         this.formLogin.reset();
         this.authService.saveToken(res.token);
         this.authService.setUsername(res.user.username);
+        this.authService.setUserID(res.user.id);
         this.isLoggedIn = true;
-        this.router.navigate(['/products']);
+        this.router.navigate(['/']);
       },
       error: (ee) => {
         alert(ee.error.message);
@@ -107,7 +108,7 @@ export class LoginComponent {
   // SIGNUP SUBMIT
   submitSignup() {
     if (this.signupForm.invalid) {
-      alert('Vui lòng điền các thông tin chính xác!');
+      this.toastr.error('Vui lòng điền các thông tin chính xác!', 'Error');
       return;
     }
 

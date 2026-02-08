@@ -99,5 +99,11 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./features/auth/login/login')
                 .then(m => m.LoginComponent)
+    },
+    {
+        path: 'cart',
+        loadComponent: () =>
+            import('./features/carts/carts/carts')
+                .then(m => m.CartComponent)
     }
 ];
