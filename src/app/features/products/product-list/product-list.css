@@ -617,11 +617,6 @@
         font-weight: 700;
     }
 
-
-}
-
-@media (max-width: 480px) {
-
     .display-title {
         font-size: 36px;
     }
@@ -633,4 +628,5 @@
     .product-grid {
         grid-template-columns: 1fr;
     }
+
 }
