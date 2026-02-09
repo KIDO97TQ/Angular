@@ -326,7 +326,7 @@
 .product-name {
     font-size: 20px;
     font-weight: 600;
-    color: var(--dark);
+    color: black;
     margin-bottom: 12px;
     line-height: 1.4;
     display: -webkit-box;
@@ -347,13 +347,13 @@
 .price {
     font-size: 24px;
     font-weight: 700;
-    color: var(--secondary);
+    color: black;
     font-family: 'Lato', sans-serif;
 }
 
 .price-label {
     font-size: 13px;
-    color: var(--gray);
+    color: gray;
     font-family: 'Lato', sans-serif;
 }
 

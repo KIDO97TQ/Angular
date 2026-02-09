@@ -25,6 +25,11 @@ export class CartsService {
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
 
+  resetCart() {
+    this.cartCountSubject.next(0);
+    this.cartItems.set([]);
+  }
+
   /** Load cart count */
   loadCartCount(userId: string): Observable<{ count: number }> {
     return this.http

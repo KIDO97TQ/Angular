@@ -44,7 +44,7 @@ export const login = async (req, res) => {
                 username: dbUser.username
             },
             process.env.JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "1m" }
         );
 
         // 5️⃣ Trả kết quả

@@ -8,13 +8,13 @@ const router = express.Router();
 router.post("/addcarts/:id", verifyToken, addToCart);
 
 // get qty carts
-router.get("/count/:id", verifyToken, getCartCount);
+router.get("/count/:id", getCartCount);
 
 // Get all cart items
-router.get("/users/:id", verifyToken, getCartByUserId);
+router.get("/users/:id", getCartByUserId);
 
 // Get cart summary (total, deposit, etc.)
-router.get("/users/:id/cart/summary", verifyToken, getCartSummary);
+router.get("/users/:id/cart/summary", getCartSummary);
 
 // Update cart item quantity
 router.put("/cart-items/:id", verifyToken, updateCartItemQuantity);

@@ -13,6 +13,7 @@ import { AuthService } from '../../../Core/auth/auth-service';
 import { ToastrService } from 'ngx-toastr';
 import { ChangeDetectorRef } from '@angular/core';
 import { usernameExistsValidator } from '../../../shared/validators/username-exists.validator';
+import { CartsService } from '../../../Core/services/carts';
 
 @Component({
   standalone: true,
@@ -26,6 +27,7 @@ export class LoginComponent {
   authService = inject(AuthService);
   toastr = inject(ToastrService);
   cd = inject(ChangeDetectorRef);
+  cartService = inject(CartsService);
 
   isLoggedIn = false;
   username: string | null = null;
@@ -90,13 +92,13 @@ export class LoginComponent {
 
     this.userService.login(payload).subscribe({
       next: (res: any) => {
-        console.log('LOGIN RESPONSE:', res);
         this.username = res.user.username;
         this.formLogin.reset();
         this.authService.saveToken(res.token);
         this.authService.setUsername(res.user.username);
         this.authService.setUserID(res.user.id);
         this.isLoggedIn = true;
+        this.Loadingcart(res.user.id);
         this.router.navigate(['/']);
       },
       error: (ee) => {
@@ -104,6 +106,13 @@ export class LoginComponent {
       }
     });
   }
+
+  Loadingcart(userId: string) {
+    if (userId) {
+      this.cartService.loadCartCount(userId).subscribe();
+    }
+  }
+
 
   // SIGNUP SUBMIT
   submitSignup() {
@@ -139,6 +148,7 @@ export class LoginComponent {
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;
+    this.cartService.resetCart();
     this.router.navigate(['/login']);
   }
 }

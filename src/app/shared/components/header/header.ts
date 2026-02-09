@@ -25,29 +25,45 @@ export class HeaderComponent {
   userMenuOpen = false;
 
   hideTopBar = false;
+  lastScrollY = window.scrollY;
+  isHidden = false;
 
-  @HostListener('window:scroll')
+  @HostListener('window:scroll', [])
   onScroll() {
-    this.hideTopBar = window.scrollY > 50;
+    const currentY = window.scrollY;
+    const diff = currentY - this.lastScrollY;
+
+    // scroll xuống
+    if (diff > 5 && currentY > 80 && !this.isHidden) {
+      this.isHidden = true;
+      this.hideTopBar = true;
+    }
+
+    // scroll lên
+    if (diff < -5 && this.isHidden) {
+      this.isHidden = false;
+      this.hideTopBar = false;
+    }
+
+    this.lastScrollY = currentY;
   }
 
-  @HostListener('document:click')
-  closeUserMenu() {
-    this.userMenuOpen = false;
-    this.menuOpen = false;
-  }
 
-  authService = inject(AuthService);
+
   username: string | null = null;
 
-  ngOnInit() {
-    const userId = this.authService.getUserId();
+  Loadingcart() {
+    const userId = this.auth.getUserId();
 
     if (userId) {
       this.cartService.loadCartCount(userId).subscribe();
     }
+  }
 
-    this.authService.user$.subscribe(name => {
+  ngOnInit() {
+    this.Loadingcart();
+
+    this.auth.user$.subscribe(name => {
       this.username = name;
     });
 
@@ -60,10 +76,14 @@ export class HeaderComponent {
     this.userMenuOpen = false;
     this.menuOpen = false;
     this.auth.logout();
+    this.cartService.resetCart();
     this.router.navigate(['/login']);
   }
 
   toggleUserMenu() {
+    if (!this.username) {
+      return;
+    }
     this.userMenuOpen = !this.userMenuOpen;
   }
 
@@ -83,5 +103,6 @@ export class HeaderComponent {
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
   }
+
 
 }

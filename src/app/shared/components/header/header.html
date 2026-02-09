@@ -16,7 +16,7 @@
                             <span class="contact-linkInfo">LuongEm</span>
                         </a>
 
-                        <span class="contact-link">
+                        <span class="contact-link closetime">
                             <i class="bi bi-clock-fill"></i>
                             <span class="contact-linkInfo">Mở cửa từ 8:00 - 22:00</span>
                         </span>
@@ -40,8 +40,12 @@
                         }
                         @else
                         {
-                        <i routerLink="/login" class="bi bi-door-open" (click)="$event.stopPropagation()"></i>
-                        <span>Login</span>
+                        <!-- <i routerLink="/login" class="bi bi-door-open" (click)="$event.stopPropagation()"></i>
+                        <span>Login</span> -->
+                        <button class="login-btn" routerLink="/login" (click)="$event.stopPropagation()">
+                            <i class="bi bi-door-open"></i>
+                            <span>Login</span>
+                        </button>
                         }
                     </div>
 

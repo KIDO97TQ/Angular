@@ -105,7 +105,7 @@ export const getCartByUserId = async (req, res) => {
                 ci.price as productprice,
                 ci.rental_days,
                 p.productname,
-                p.size,
+                p.size as productsize,
                 c.user_id as userid
              FROM clothings.carts c
              INNER JOIN clothings.cart_items ci ON ci.cart_id = c.id
