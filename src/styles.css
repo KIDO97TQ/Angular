@@ -9,11 +9,15 @@
     --menu-hover: #e5e7eb;
 
     --dropdown: #e5e7eb;
+
+    --header-line: linear-gradient(to right,
+            transparent,
+            rgba(0, 0, 0, 0.15),
+            transparent);
 }
 
 /* ===== DARK ===== */
 [data-theme='dark'] {
-    --bg: #0f172a;
     --bg: #0f172a;
     --text: #e5e7eb;
     --header-bg: #020617;
@@ -23,6 +27,11 @@
     --menu-hover: #4B4B4B;
 
     --dropdown: #4B4B4B;
+
+    --header-line: linear-gradient(to right,
+            transparent,
+            rgb(255, 255, 255),
+            transparent);
 }
 
 

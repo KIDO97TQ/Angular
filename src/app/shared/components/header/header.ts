@@ -48,7 +48,11 @@ export class HeaderComponent {
     this.lastScrollY = currentY;
   }
 
-
+  @HostListener('document:click')
+  closeAllMenus() {
+    this.userMenuOpen = false;
+    this.menuOpen = false;
+  }
 
   username: string | null = null;
 
@@ -91,6 +95,7 @@ export class HeaderComponent {
     event.stopPropagation();
     this.menuOpen = !this.menuOpen;
   }
+
 
   toggleTheme() {
     const html = document.documentElement;

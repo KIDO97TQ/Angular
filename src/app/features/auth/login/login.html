@@ -38,8 +38,16 @@
                     <p class="error-message">Vui lòng nhập password</p>
                     }
 
-                    <button type="submit" class="btn solid" [disabled]="formLogin.invalid">
-                        Đăng nhập
+                    <button type="submit" class="btn solid loading-btn"
+                        [disabled]="formLogin.invalid || isLoginLoading">
+
+                        @if (!isLoginLoading) {
+                        <span>Đăng nhập</span>
+                        } @else {
+                        <div class="wave-loader">
+                            <span></span><span></span><span></span>
+                        </div>
+                        }
                     </button>
 
                     <p class="social-text">Hoặc đăng nhập với các nền tảng sau</p>
@@ -118,9 +126,18 @@
                     <p class="error-message">Chiều dài mật khẩu phải lớn hơn 6 ký tự</p>
                     }
 
-                    <button type="submit" class="btn" [disabled]="signupForm.invalid || signupForm.pending">
-                        Đăng ký
+                    <button type="submit" class="btn loading-btn"
+                        [disabled]="signupForm.invalid || signupForm.pending || isSignupLoading">
+
+                        @if (!isSignupLoading) {
+                        <span>Đăng ký</span>
+                        } @else {
+                        <div class="wave-loader">
+                            <span></span><span></span><span></span>
+                        </div>
+                        }
                     </button>
+
 
                     <p class="social-text">Hoặc đăng nhập với các nền tảng sau</p>
                     <div class="social-media">

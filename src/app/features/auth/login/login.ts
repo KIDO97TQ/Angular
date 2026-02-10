@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangeDetectorRef } from '@angular/core';
 import { usernameExistsValidator } from '../../../shared/validators/username-exists.validator';
 import { CartsService } from '../../../Core/services/carts';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -31,7 +32,10 @@ export class LoginComponent {
 
   isLoggedIn = false;
   username: string | null = null;
-  isSignupMode = false; // Toggle between login/signup
+  isSignupMode = false;
+  isLoginLoading = false;
+  isSignupLoading = false;
+
 
   // LOGIN FORM
   formLogin = new FormGroup({
@@ -81,8 +85,13 @@ export class LoginComponent {
   }
 
   // LOGIN SUBMIT
+
+
   submit() {
-    if (this.formLogin.invalid) return;
+    if (this.formLogin.invalid || this.isLoginLoading) return;
+
+    this.isLoginLoading = true;
+
     const { username, password } = this.formLogin.getRawValue();
 
     const payload = {
@@ -90,22 +99,34 @@ export class LoginComponent {
       pass: password
     };
 
-    this.userService.login(payload).subscribe({
-      next: (res: any) => {
-        this.username = res.user.username;
-        this.formLogin.reset();
-        this.authService.saveToken(res.token);
-        this.authService.setUsername(res.user.username);
-        this.authService.setUserID(res.user.id);
-        this.isLoggedIn = true;
-        this.Loadingcart(res.user.id);
-        this.router.navigate(['/']);
-      },
-      error: (ee) => {
-        alert(ee.error.message);
-      }
-    });
+    this.userService.login(payload)
+      .pipe(
+        finalize(() => {
+          // ⚠️ luôn chạy, kể cả success / error / navigate
+          this.isLoginLoading = false;
+        })
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.username = res.user.username;
+          this.formLogin.reset();
+
+          this.authService.saveToken(res.token);
+          this.authService.setUsername(res.user.username);
+          this.authService.setUserID(res.user.id);
+
+          this.isLoggedIn = true;
+          this.Loadingcart(res.user.id);
+
+          this.router.navigate(['/']);
+        },
+        error: (ee) => {
+          this.toastr.error(ee.error.message || 'Đăng nhập thất bại');
+        }
+      });
   }
+
+
 
   Loadingcart(userId: string) {
     if (userId) {
@@ -116,10 +137,9 @@ export class LoginComponent {
 
   // SIGNUP SUBMIT
   submitSignup() {
-    if (this.signupForm.invalid) {
-      this.toastr.error('Vui lòng điền các thông tin chính xác!', 'Error');
-      return;
-    }
+    if (this.signupForm.invalid || this.isSignupLoading) return;
+
+    this.isSignupLoading = true;
 
     const { username, phone, password } = this.signupForm.getRawValue();
 
@@ -128,21 +148,22 @@ export class LoginComponent {
       phone: phone,
       pass: password
     };
-    console.log(payload);
 
     this.userService.signup(payload).subscribe({
-      next: (res: any) => {
+      next: () => {
+        this.isSignupLoading = false;
+
         this.signupForm.reset();
         this.isSignupMode = false;
-        this.isLoggedIn = false;
-        this.cd.detectChanges(); //thêm để hết lỗi Angular đã check xong view rồi, nhưng giá trị bind lại bị đổi ngay sau đó
         this.toastr.success('Đăng ký thành công. Vui lòng đăng nhập', 'Success');
       },
       error: (ee) => {
+        this.isSignupLoading = false;
         alert(ee.error.message);
       }
     });
   }
+
 
   // LOGOUT
   logout() {

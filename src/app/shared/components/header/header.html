@@ -44,7 +44,7 @@
                         <span>Login</span> -->
                         <button class="login-btn" routerLink="/login" (click)="$event.stopPropagation()">
                             <i class="bi bi-door-open"></i>
-                            <span>Login</span>
+                            <span class="text-login">Login</span>
                         </button>
                         }
                     </div>
@@ -52,8 +52,19 @@
                     @if (userMenuOpen)
                     {
                     <div class="user-menu" (click)="$event.stopPropagation()">
-                        <a class="Linkpage" routerLink="/account">Account settings</a>
-                        <a class="Linkpage" routerLink="/profile">Profile</a>
+                        <a class="Linkpage" routerLink="/profile">
+                            <i class="bi bi-person-heart"></i>
+                            <span>Hồ sơ</span>
+                        </a>
+                        <a class="Linkpage" routerLink="/myorder">
+                            <i class="bi bi-calendar-check"></i>
+                            <span>Đơn thuê của tôi</span>
+                        </a>
+
+                        <a class="Linkpage" routerLink="/settings">
+                            <i class="bi bi-gear"></i>
+                            <span>Cài đặt</span>
+                        </a>
                         <button class="theme-toggle" (click)="toggleTheme(); $event.stopPropagation()">
                             <span class="icon moon">🌙</span>
                             <span class="icon sun">☀️</span>

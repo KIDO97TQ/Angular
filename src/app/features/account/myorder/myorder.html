@@ -1,0 +1,98 @@
+<div class="rentals-page">
+
+    <h2>Đơn thuê của tôi</h2>
+
+    <!-- FILTER & SORT -->
+    <div class="filter-section">
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Tìm kiếm sản phẩm..." [(ngModel)]="searchTerm">
+        </div>
+
+        <select class="sort-dropdown" [(ngModel)]="sortBy">
+            <option value="date">Sắp xếp: Mới nhất</option>
+            <option value="price">Sắp xếp: Giá cao nhất</option>
+            <option value="name">Sắp xếp: Tên A-Z</option>
+        </select>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button [class.active]="activeTab === 'current'" (click)="setTab('current')" [attr.data-count]="currentCount">
+            Đang thuê
+        </button>
+
+        <button [class.active]="activeTab === 'history'" (click)="setTab('history')" [attr.data-count]="historyCount">
+            Lịch sử đã thuê
+        </button>
+    </div>
+
+    <!-- EMPTY -->
+    <div *ngIf="filteredRentals.length === 0" class="empty">
+        <i class="bi bi-inbox"></i>
+        <p>{{ searchTerm ? 'Không tìm thấy kết quả' : 'Không có đơn nào' }}</p>
+    </div>
+
+    <!-- LIST -->
+    <div class="rental-list">
+        <div class="rental-card" *ngFor="let r of filteredRentals">
+
+            <!-- <img [src]="r.image" [alt]="r.name"> -->
+
+            <div class="info">
+                <h3>{{ r.name }}</h3>
+                <p>
+                    <i class="bi bi-calendar"></i>
+                    {{ r.startDate }} → {{ r.endDate }}
+                </p>
+                <p class="price">{{ r.price | number }}₫</p>
+
+                <p *ngIf="r.daysRemaining !== undefined && (r.status === 'active' || r.status === 'overdue')"
+                    class="countdown">
+                    <i class="bi bi-clock"></i>
+                    {{ getDaysRemainingText(r) }}
+                </p>
+            </div>
+
+            <div class="actions">
+                <!-- <span class="status" [class]="r.status"> -->
+                <!-- {{ getStatusLabel(r.status) }} -->
+                <span class="detail-order">
+                    Chi tiết đơn hàng
+                </span>
+
+                <div class="action-buttons">
+                    <!-- Buttons for active rentals -->
+                    <ng-container *ngIf="r.status === 'active'">
+                        <button class="action-btn extend" (click)="extendRental(r.id)">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Gia hạn
+                        </button>
+                        <button class="action-btn cancel" (click)="cancelRental(r.id)">
+                            <i class="bi bi-x-circle"></i>
+                            Huỷ
+                        </button>
+                    </ng-container>
+
+                    <!-- Buttons for overdue -->
+                    <ng-container *ngIf="r.status === 'overdue'">
+                        <button class="action-btn extend" (click)="extendRental(r.id)">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Trả ngay
+                        </button>
+                    </ng-container>
+
+                    <!-- Buttons for returned -->
+                    <ng-container *ngIf="r.status === 'returned'">
+                        <button class="action-btn review" (click)="reviewRental(r.id)">
+                            <i class="bi bi-star"></i>
+                            Đánh giá
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

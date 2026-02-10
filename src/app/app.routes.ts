@@ -105,5 +105,23 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./features/carts/carts/carts')
                 .then(m => m.CartComponent)
+    },
+    {
+        path: 'profile',
+        loadComponent: () =>
+            import('./features/account/profile/profile')
+                .then(m => m.ProfileComponent)
+    },
+    {
+        path: 'settings',
+        loadComponent: () =>
+            import('./features/account/mysetting/mysetting')
+                .then(m => m.MysettingComponent)
+    },
+    {
+        path: 'myorder',
+        loadComponent: () =>
+            import('./features/account/myorder/myorder')
+                .then(m => m.MyorderComponent)
     }
 ];

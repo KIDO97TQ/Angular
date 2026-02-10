@@ -1,0 +1,45 @@
+<div class="settings-page">
+
+    <h2>Cài đặt</h2>
+
+    <!-- ACCOUNT INFO -->
+    <section class="card">
+        <h3>Thông tin tài khoản</h3>
+        <p><strong>Tên:</strong> demo_user</p>
+        <p><strong>Ngày tham gia:</strong> 12/01/2024</p>
+    </section>
+
+    <!-- THEME -->
+    <section class="card">
+        <h3>Giao diện</h3>
+        <button class="theme-btn" (click)="toggleTheme()">
+            <i class="bi bi-moon-stars"></i>
+            Chuyển chế độ sáng / tối
+        </button>
+    </section>
+
+    <!-- PASSWORD -->
+    <section class="card">
+        <h3>Đổi mật khẩu</h3>
+
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+            <input type="password" placeholder="Mật khẩu hiện tại" formControlName="currentPassword">
+
+            <input type="password" placeholder="Mật khẩu mới" formControlName="newPassword">
+
+            <button type="submit" [disabled]="passwordForm.invalid">
+                Cập nhật mật khẩu
+            </button>
+        </form>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="card danger">
+        <h3>Bảo mật</h3>
+        <button class="danger-btn" (click)="logoutAll()">
+            <i class="bi bi-shield-lock"></i>
+            Đăng xuất tất cả thiết bị
+        </button>
+    </section>
+
+</div>
