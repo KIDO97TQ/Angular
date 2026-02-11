@@ -26,7 +26,8 @@ export class ProductService {
 
   GetProductByType(type: string) {
     return this.http.get<Product[]>(
-      `${this.apiUrl}/products/get-product-by-type/${type}`
+      `${this.apiUrl}/products/get-product-by-type/bytype`,
+      { params: { type } }
     );
   }
   searchProducts(keyword: string) {
@@ -42,5 +43,7 @@ export class ProductService {
     );
   }
 
-
+  getAllProductsType() {
+    return this.http.get<any[]>(`${this.apiUrl}/products/get-product-by-type/alltype`);
+  }
 }

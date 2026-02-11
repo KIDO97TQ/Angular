@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../Core/services/product';
@@ -26,22 +26,16 @@ export interface Product {
   styleUrl: './product-list.css',
 })
 export class ProductListComponent implements OnDestroy {
+  cdr = inject(ChangeDetectorRef);
   CartsService = inject(CartsService);
   authService = inject(AuthService);
   toastr = inject(ToastrService);
 
-  private readonly TYPE_TITLE_MAP: Record<string, string> = {
-    'ao-dai': 'Áo dài',
-    'vay-ngan': 'Váy ngắn',
-    'vay-dai': 'Váy dài',
-    'chan-vay': 'Chân váy',
-    'vay-tiec-chieu': 'Váy tiệc chiều',
-    'giay': 'Giày'
-  };
-
   productService = inject(ProductService);
   router = inject(Router);
 
+  // Loading state
+  isLoading = false;
   title = '';
   type = '';
   userId: string = '';
@@ -65,10 +59,8 @@ export class ProductListComponent implements OnDestroy {
       this.route.queryParams
     ]).subscribe(([params, query]) => {
 
-      const type = params['type'];
+      const type = query['type'];
       const keyword = query['keyword'];
-
-      console.log('type', keyword);
 
       if (keyword) {
         this.title = `Kết quả tìm kiếm: "${keyword}"`;
@@ -76,7 +68,7 @@ export class ProductListComponent implements OnDestroy {
       }
       else if (type) {
         this.type = type;
-        this.title = this.TYPE_TITLE_MAP[type] ?? '';
+        this.title = type ?? '';
         this.fetchProducts();
       }
       else {
@@ -87,17 +79,39 @@ export class ProductListComponent implements OnDestroy {
   }
 
   searchProducts(keyword: string) {
-    this.productService.searchProducts(keyword).subscribe(res => {
-      this.products = this.normalizePrice(res);
-      this.currentPage = 1;
-      this.calculatePagination();
+    this.isLoading = true;
+    // Bỏ this.cdr.detectChanges() ở đây
+
+    this.productService.searchProducts(keyword).subscribe({
+      next: (res) => {
+        this.products = this.normalizePrice(res);
+        this.currentPage = 1;
+        this.calculatePagination();
+
+        // Đợi tick tiếp theo
+        setTimeout(() => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        });
+      },
+      error: (err) => {
+        setTimeout(() => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        });
+        this.toastr.error('Lỗi tải sản phẩm', 'Error');
+      }
     });
   }
+
   fetchAllProducts() {
+    this.isLoading = true;
     this.productService.getAllProducts().subscribe(res => {
       this.products = this.normalizePrice(res);
       this.currentPage = 1;
       this.calculatePagination();
+      this.isLoading = false;
+      this.cdr.detectChanges();
     });
   }
   normalizePrice(data: Product[]): Product[] {
@@ -109,6 +123,7 @@ export class ProductListComponent implements OnDestroy {
     }));
   }
   fetchProducts() {
+    this.isLoading = true;
     this.productService.GetProductByType(this.type).subscribe(res => {
       this.products = res;
       this.products = this.products.map(p => ({
@@ -119,6 +134,8 @@ export class ProductListComponent implements OnDestroy {
       }));
       this.calculatePagination();
       this.productService.loading.set(false);
+      this.isLoading = false;
+      this.cdr.detectChanges();
     });
   }
 
@@ -128,11 +145,12 @@ export class ProductListComponent implements OnDestroy {
   }
 
   updatePaginatedProducts() {
+    this.isLoading = true;
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedProducts = this.products.slice(startIndex, endIndex);
-
-    // Scroll to top when page changes
+    this.isLoading = false;
+    this.cdr.detectChanges();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

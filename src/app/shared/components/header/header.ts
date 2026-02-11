@@ -4,6 +4,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { CommonModule } from '@angular/common';
 import { CartsService } from '../../../Core/services/carts';
 import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../../Core/services/product';
 
 
 interface User {
@@ -22,9 +23,10 @@ export class HeaderComponent {
   auth = inject(AuthService);
   router = inject(Router);
   cartService = inject(CartsService);
+  productService = inject(ProductService);
   menuOpen = false;
   userMenuOpen = false;
-
+  types: any[] = [];
   hideTopBar = false;
   lastScrollY = window.scrollY;
   isHidden = false;
@@ -67,6 +69,10 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.Loadingcart();
+
+    this.productService.getAllProductsType().subscribe(res => {
+      this.types = res;
+    });
 
     this.auth.user$.subscribe(name => {
       this.username = name;
@@ -119,5 +125,9 @@ export class HeaderComponent {
     });
   }
 
-
+  goToCategory(type: string) {
+    this.router.navigate(['/products'], {
+      queryParams: { type }
+    });
+  }
 }
