@@ -117,7 +117,7 @@
                     <a class="Linkpage" routerLink="/products/vay-dai">Váy dài</a>
                     <a class="Linkpage" routerLink="/products/chan-vay">Chân váy</a>
                     <a class="Linkpage" routerLink="/products/vay-tiec-chieu">Váy tiệc chiều</a>
-                    <a class="Linkpage" routerLink="/products/giay">Dày</a>
+                    <a class="Linkpage" routerLink="/products/giay">Giày</a>
                 </div>
             </div>
             <a class="Linkpage" routerLink="/contact" routerLinkActive="active">Liên hệ</a>
@@ -127,8 +127,9 @@
         <!-- RIGHT -->
         <div class="header-right">
             <div class="search-wrapper">
-                <input type="text" placeholder="Search...">
-                <button class="btn-search">
+                <input type="text" [(ngModel)]="searchKeyword" placeholder="Tìm váy, áo dài..."
+                    (keyup.enter)="search()">
+                <button class="btn-search" (click)="search()">
                     <i class="bi bi-search"></i>
                 </button>
             </div>

@@ -7,7 +7,7 @@ import { registerLocaleData } from '@angular/common';
 import { CartsService } from '../../../Core/services/carts';
 import { AuthService } from '../../../Core/auth/auth-service';
 import { ToastrService } from 'ngx-toastr';
-
+import { combineLatest } from 'rxjs';
 
 export interface Product {
   id: number;
@@ -60,14 +60,54 @@ export class ProductListComponent implements OnDestroy {
   constructor(
     private route: ActivatedRoute
   ) {
-    this.sub = this.route.params.subscribe(params => {
-      this.type = params['type'];
-      console.log(this.type);
-      this.title = this.TYPE_TITLE_MAP[this.type] ?? '';
-      this.fetchProducts();
+    this.sub = combineLatest([
+      this.route.params,
+      this.route.queryParams
+    ]).subscribe(([params, query]) => {
+
+      const type = params['type'];
+      const keyword = query['keyword'];
+
+      console.log('type', keyword);
+
+      if (keyword) {
+        this.title = `Kết quả tìm kiếm: "${keyword}"`;
+        this.searchProducts(keyword);
+      }
+      else if (type) {
+        this.type = type;
+        this.title = this.TYPE_TITLE_MAP[type] ?? '';
+        this.fetchProducts();
+      }
+      else {
+        this.title = 'Tất cả sản phẩm';
+        this.fetchAllProducts();
+      }
     });
   }
 
+  searchProducts(keyword: string) {
+    this.productService.searchProducts(keyword).subscribe(res => {
+      this.products = this.normalizePrice(res);
+      this.currentPage = 1;
+      this.calculatePagination();
+    });
+  }
+  fetchAllProducts() {
+    this.productService.getAllProducts().subscribe(res => {
+      this.products = this.normalizePrice(res);
+      this.currentPage = 1;
+      this.calculatePagination();
+    });
+  }
+  normalizePrice(data: Product[]): Product[] {
+    return data.map(p => ({
+      ...p,
+      productprice: Number(
+        String(p.productprice).replace(/[.,]/g, '')
+      )
+    }));
+  }
   fetchProducts() {
     this.productService.GetProductByType(this.type).subscribe(res => {
       this.products = res;

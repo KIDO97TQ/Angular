@@ -29,4 +29,18 @@ export class ProductService {
       `${this.apiUrl}/products/get-product-by-type/${type}`
     );
   }
+  searchProducts(keyword: string) {
+    return this.http.get<Product[]>(
+      `${this.apiUrl}/products/get-product-by-type/search`,
+      { params: { keyword } }
+    );
+  }
+
+  getAllProducts() {
+    return this.http.get<Product[]>(
+      `${this.apiUrl}/products/get-product-by-type/all`
+    );
+  }
+
+
 }

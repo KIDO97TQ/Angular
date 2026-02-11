@@ -3,6 +3,7 @@ import { AuthService } from '../../../Core/auth/auth-service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { CommonModule } from '@angular/common';
 import { CartsService } from '../../../Core/services/carts';
+import { FormsModule } from '@angular/forms';
 
 
 interface User {
@@ -12,7 +13,7 @@ interface User {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -107,6 +108,15 @@ export class HeaderComponent {
 
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
+  }
+
+  searchKeyword = '';
+  search() {
+    if (!this.searchKeyword.trim()) return;
+
+    this.router.navigate(['/products'], {
+      queryParams: { keyword: this.searchKeyword }
+    });
   }
 
 
