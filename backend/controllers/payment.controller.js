@@ -94,29 +94,24 @@ export const createPaymentLink = async (req, res) => {
 // ================================
 export const payosWebhook = async (req, res) => {
     try {
-        const webhookData = req.body;
-
         // 1️⃣ Verify signature
-        const isValid = payOS.webhooks.verifyPaymentWebhookData(webhookData);
+        // const isValid = payOS.webhooks.verifyPaymentWebhookData(webhookData);
+        const webhookData = payOS.webhooks.verify(req.body);
 
+        if (webhookData.code === "00") {
+            const orderCode = webhookData.data.orderCode;
 
-        if (!isValid) {
-            return res.status(400).json({ message: "Invalid signature" });
-        }
-
-        const { orderCode, status } = webhookData.data;
-
-        if (status === "PAID") {
             await pool.query(
                 `UPDATE kido.orders
-                 SET payment_status = 'paid'
-                 WHERE order_code = $1`,
+         SET payment_status = 'paid',
+             updated_at = CURRENT_TIMESTAMP
+         WHERE order_code = $1`,
                 [orderCode]
             );
+
+            res.json({ success: true });
+
         }
-
-        res.json({ success: true });
-
     } catch (error) {
         console.error("Webhook error:", error);
         res.status(500).json({ success: false });
