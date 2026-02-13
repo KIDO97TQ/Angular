@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../../Core/services/carts';
 import { PaymentService } from '../../../Core//services/payment';
+import { Router } from '@angular/router';
 
 interface CartItem {
   id: number;
@@ -24,6 +25,7 @@ export class CheckoutComponent implements OnInit {
   fb = inject(FormBuilder);
   cartService = inject(CartsService);
   PaymentService = inject(PaymentService);
+  router = inject(Router);
   cartItems: CartItem[] = [];
 
   username = localStorage.getItem('username');
@@ -114,7 +116,8 @@ export class CheckoutComponent implements OnInit {
         product_id: item.productid,
         quantity: item.quantity,
         price: item.productprice,
-        rental_days: this.rentalDays
+        rental_days: this.rentalDays,
+        productname: item.productname
       }))
     };
     console.log(payload);
@@ -125,6 +128,7 @@ export class CheckoutComponent implements OnInit {
       error: (err) => {
         console.error(err);
         alert("Có lỗi khi tạo thanh toán");
+        this.router.navigate(['/cart']);
       }
     });
   }

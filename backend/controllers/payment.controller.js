@@ -9,34 +9,6 @@ import crypto from "crypto";
 // TẠO PAYMENT
 // ================================
 
-function sortObjDataByKey(object) {
-    return Object.keys(object)
-        .sort()
-        .reduce((obj, key) => {
-            obj[key] = object[key];
-            return obj;
-        }, {});
-}
-
-function convertObjToQueryStr(object) {
-    return Object.keys(object)
-        .filter((key) => object[key] !== undefined)
-        .map((key) => {
-            let value = object[key];
-
-            if (value && Array.isArray(value)) {
-                value = JSON.stringify(value);
-            }
-
-            if ([null, undefined].includes(value)) {
-                value = "";
-            }
-
-            return `${key}=${value}`;
-        })
-        .join("&");
-}
-
 export const createPaymentLink = async (req, res) => {
     const client = await pool.connect();
 
@@ -77,66 +49,33 @@ export const createPaymentLink = async (req, res) => {
             );
         }
 
-        await client.query("COMMIT");
-
-        // ===== PAYOS PART =====
-
         const expiredAt = Math.floor(Date.now() / 1000) + 15 * 60;
 
         const paymentData = {
             orderCode: Number(orderCode),
             amount: Number(depositAmount),
-            description: "Thanh toan",
-            buyerName: "Khach hang",
-            buyerEmail: "test@gmail.com",
-            buyerPhone: "0900000000",
-            items: [
-                {
-                    name: "Dat coc",
-                    quantity: 1,
-                    price: Number(depositAmount),
-                    unit: "dong",
-                    taxPercentage: 0
-                }
-            ],
-            cancelUrl: "http://localhost:4200/payment-cancel",
-            returnUrl: `http://localhost:4200/payment-success?orderCode=${orderCode}`,
+            description: "Coc don hang",
+            items: items.map(i => ({
+                name: i.productname,
+                quantity: i.quantity,
+                price: i.price
+            })),
+            cancelUrl: `${process.env.FRONTEND_URL}/payment-cancel`,
+            returnUrl: `${process.env.FRONTEND_URL}/payment-success?orderCode=${orderCode}`,
             expiredAt
         };
 
-        // ===== TẠO SIGNATURE =====
-
-        const sortedData = sortObjDataByKey(paymentData);
-        const dataQueryStr = convertObjToQueryStr(sortedData);
-
-        const signature = crypto
-            .createHmac("sha256", process.env.PAYOS_CHECKSUM_KEY)
-            .update(dataQueryStr)
-            .digest("hex");
-
-        paymentData.signature = signature;
-
-        console.log("📝 Creating payment:", paymentData);
-        console.log("🔐 Raw string:", dataQueryStr);
-        console.log("🔐 Signature:", signature);
-
-        // ===== CALL PAYOS =====
-
-        const paymentResponse = await payOS.request({
-            method: "POST",
-            url: "/payment-requests",
-            data: paymentData
-        });
-
-        console.log("💳 PayOS response:", paymentResponse);
+        const paymentResponse = await payOS.paymentRequests.create(paymentData);
+        // console.log("💳 PayOS response:", paymentResponse);
 
         res.json({
             success: true,
-            checkoutUrl: paymentResponse.data.checkoutUrl,
-            qrCode: paymentResponse.data.qrCode,
+            checkoutUrl: paymentResponse.checkoutUrl,
+            qrCode: paymentResponse.qrCode,
             orderCode
         });
 
+        await client.query("COMMIT");
     } catch (error) {
         await client.query("ROLLBACK");
         console.error("❌ Payment error:", error);
@@ -155,39 +94,34 @@ export const createPaymentLink = async (req, res) => {
 // ================================
 export const payosWebhook = async (req, res) => {
     try {
-        const data = req.body;
+        const webhookData = req.body;
 
-        console.log("📨 Webhook received:", data);
-
-        // Verify webhook signature
-        const isValid = payOS.verifyPaymentWebhookData(data);
+        // 1️⃣ Verify signature
+        const isValid = payOS.webhooks.verifySignature(webhookData);
 
         if (!isValid) {
-            console.error("❌ Invalid webhook signature");
             return res.status(400).json({ message: "Invalid signature" });
         }
 
-        if (data.code === "00") {
-            const orderCode = data.data.orderCode;
+        const { orderCode, status } = webhookData.data;
 
+        if (status === "PAID") {
             await pool.query(
                 `UPDATE kido.orders
-                 SET payment_status = 'paid',
-                     updated_at = CURRENT_TIMESTAMP
+                 SET payment_status = 'paid'
                  WHERE order_code = $1`,
                 [orderCode]
             );
-
-            console.log("✅ Thanh toán thành công:", orderCode);
         }
 
-        res.status(200).json({ message: "ok" });
+        res.json({ success: true });
 
     } catch (error) {
-        console.error("❌ Webhook error:", error);
-        res.status(500).json({ message: "Webhook error" });
+        console.error("Webhook error:", error);
+        res.status(500).json({ success: false });
     }
 };
+
 
 // ================================
 // CHECK ORDER STATUS

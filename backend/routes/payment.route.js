@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/create-payment", verifyToken, createPaymentLink);
 
 //db bên payos trả lời check xem user chuyển tiền chưa
-router.post("/check-payment", verifyToken, payosWebhook);
+router.post("/webhook", payosWebhook);
 
 //check xem user chuyển tiền chưa
 router.get("/order-status", verifyToken, getOrderStatus);
