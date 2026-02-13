@@ -94,29 +94,35 @@ export const createPaymentLink = async (req, res) => {
 // ================================
 export const payosWebhook = async (req, res) => {
     try {
-        // 1️⃣ Verify signature
-        // const isValid = payOS.webhooks.verifyPaymentWebhookData(webhookData);
         const webhookData = payOS.webhooks.verify(req.body);
+
+        console.log("📩 Webhook:", webhookData);
+
+        // ⚠️ Trả 200 ngay lập tức
+        res.status(200).send("OK");
 
         if (webhookData.code === "00") {
             const orderCode = webhookData.data.orderCode;
 
             await pool.query(
                 `UPDATE kido.orders
-         SET payment_status = 'paid',
-             updated_at = CURRENT_TIMESTAMP
-         WHERE order_code = $1`,
+                 SET payment_status = 'paid',
+                     updated_at = CURRENT_TIMESTAMP
+                 WHERE order_code = $1`,
                 [orderCode]
             );
 
-            res.json({ success: true });
-
+            console.log("✅ Updated order:", orderCode);
         }
+
     } catch (error) {
-        console.error("Webhook error:", error);
-        res.status(500).json({ success: false });
+        console.error("❌ Webhook error:", error.message);
+
+        // Luôn trả 200 để tránh PayOS retry spam
+        res.status(200).send("OK");
     }
 };
+
 
 
 // ================================
