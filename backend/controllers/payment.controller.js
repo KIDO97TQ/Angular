@@ -97,7 +97,8 @@ export const payosWebhook = async (req, res) => {
         const webhookData = req.body;
 
         // 1️⃣ Verify signature
-        const isValid = payOS.webhooks.verifySignature(webhookData);
+        const isValid = payOS.webhooks.verifyPaymentWebhookData(webhookData);
+
 
         if (!isValid) {
             return res.status(400).json({ message: "Invalid signature" });
