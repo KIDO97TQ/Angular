@@ -1,36 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { PaymentService } from '../../../Core//services/payment';
+import { PaymentService } from '../../../Core/services/payment';
 
 @Component({
   selector: 'app-payment-success',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="container">
-      <h2 *ngIf="loading">Đang kiểm tra thanh toán...</h2>
-
-      <h2 *ngIf="status === 'paid'" style="color:green">
-        ✅ Thanh toán thành công!
-      </h2>
-
-      <h2 *ngIf="status === 'pending'" style="color:orange">
-        ⏳ Đang chờ xác nhận thanh toán...
-      </h2>
-
-      <h2 *ngIf="status === 'failed'" style="color:red">
-        ❌ Thanh toán thất bại
-      </h2>
-    </div>
-  `
+  templateUrl: './payment-success.html',
+  styleUrls: ['./payment-success.css'],
 })
-export class PaymentSuccessComponent implements OnInit {
+export class PaymentSuccessComponent implements OnInit, OnDestroy {
 
-  route = inject(ActivatedRoute);
-  PaymentService = inject(PaymentService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private paymentService = inject(PaymentService);
 
-  status: string = '';
+  status: 'paid' | 'pending' | 'failed' | '' = '';
   loading = true;
   intervalId: any;
   orderCode!: string;
@@ -40,6 +26,7 @@ export class PaymentSuccessComponent implements OnInit {
 
     if (!code) {
       this.loading = false;
+      this.status = 'failed';
       return;
     }
 
@@ -48,7 +35,7 @@ export class PaymentSuccessComponent implements OnInit {
     // Check lần đầu
     this.checkOrder();
 
-    // 🔥 Tự động check mỗi 3 giây
+    // Auto check mỗi 3 giây
     this.intervalId = setInterval(() => {
       if (this.status !== 'paid') {
         this.checkOrder();
@@ -57,29 +44,31 @@ export class PaymentSuccessComponent implements OnInit {
   }
 
   checkOrder() {
-    this.PaymentService.checkStatusOrder(this.orderCode)
+    this.paymentService.checkStatusOrder(this.orderCode)
       .subscribe({
         next: (res) => {
           this.status = res.status;
           this.loading = false;
 
-          // Nếu đã paid thì dừng interval
           if (this.status === 'paid') {
             clearInterval(this.intervalId);
+
+            // 🔥 Tự động redirect sau 5s (tuỳ chọn)
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 5000);
           }
         },
         error: () => {
           this.loading = false;
+          this.status = 'failed';
         }
       });
   }
 
   ngOnDestroy() {
-    // Quan trọng: tránh memory leak
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
   }
 }
-
-

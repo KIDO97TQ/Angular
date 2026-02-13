@@ -1,1 +1,34 @@
-<p>payment-success works!</p>
+<div class="payment-wrapper">
+    <div class="card">
+
+        <!-- Loading -->
+        <div *ngIf="loading" class="status loading">
+            <div class="spinner"></div>
+            <h2>Đang kiểm tra thanh toán...</h2>
+        </div>
+
+        <!-- Success -->
+        <div *ngIf="status === 'paid'" class="status success">
+            <div class="icon">✔</div>
+            <h2>Thanh toán thành công!</h2>
+            <p>Cảm ơn bạn đã đặt hàng 🎉</p>
+            <button routerLink="/" class="btn">Về trang chủ</button>
+        </div>
+
+        <!-- Pending -->
+        <div *ngIf="status === 'pending'" class="status pending">
+            <div class="icon">⏳</div>
+            <h2>Đang chờ xác nhận thanh toán...</h2>
+            <p>Vui lòng đợi trong giây lát</p>
+        </div>
+
+        <!-- Failed -->
+        <div *ngIf="status === 'failed'" class="status failed">
+            <div class="icon">✖</div>
+            <h2>Thanh toán thất bại</h2>
+            <p>Vui lòng thử lại</p>
+            <button routerLink="/" class="btn retry">Thử lại</button>
+        </div>
+
+    </div>
+</div>
