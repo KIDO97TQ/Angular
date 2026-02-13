@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const getUsers = async (req, res) => {
     try {
         const { rows } = await pool.query(
-            "SELECT * FROM clothings.userskido"
+            "SELECT * FROM kido.userskido"
         );
         res.json(rows);
     } catch (err) {

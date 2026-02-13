@@ -16,7 +16,7 @@ export const login = async (req, res) => {
 
         // 2️⃣ Tìm user
         const result = await pool.query(
-            "SELECT id, username, password FROM clothings.userskido WHERE username = $1 OR email = $1",
+            "SELECT id, username, password, email as userphone FROM kido.userskido WHERE username = $1 OR email = $1",
             [user]
         );
 
@@ -41,7 +41,8 @@ export const login = async (req, res) => {
         const token = jwt.sign(
             {
                 id: dbUser.id,
-                username: dbUser.username
+                username: dbUser.username,
+                userphone: dbUser.userphone
             },
             process.env.JWT_SECRET
         );
@@ -52,7 +53,8 @@ export const login = async (req, res) => {
             token,
             user: {
                 id: dbUser.id,
-                username: dbUser.username
+                username: dbUser.username,
+                userphone: dbUser.userphone
             }
         });
 
@@ -79,7 +81,7 @@ export const checkUsername = async (req, res) => {
 
         // Query database
         const { rows } = await pool.query(
-            "SELECT COUNT(*) as count FROM clothings.userskido WHERE username = $1",
+            "SELECT COUNT(*) as count FROM kido.userskido WHERE username = $1",
             [username]
         );
 
@@ -124,7 +126,7 @@ export const signup = async (req, res) => {
 
         // Check username or phone already exists
         const { rows: existingUsers } = await pool.query(
-            "SELECT COUNT(*) as count FROM clothings.userskido WHERE username = $1 OR email = $2",
+            "SELECT COUNT(*) as count FROM kido.userskido WHERE username = $1 OR email = $2",
             [user, phone]
         );
 
@@ -140,7 +142,7 @@ export const signup = async (req, res) => {
 
         // Insert new user
         const { rows } = await pool.query(
-            `INSERT INTO clothings.userskido (username, email, password) 
+            `INSERT INTO kido.userskido (username, email, password) 
              VALUES ($1, $2, $3) 
              RETURNING id, username, email`,
             [user, phone, hashedPassword]

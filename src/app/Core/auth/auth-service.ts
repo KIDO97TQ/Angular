@@ -16,6 +16,10 @@ export class AuthService {
     localStorage.setItem('userID', userID);
   }
 
+  setUserPhone(userphone: string) {
+    localStorage.setItem('userphone', userphone);
+  }
+
   loadUserFromStorage() {
     const username = localStorage.getItem('username');
     if (username) {
@@ -41,6 +45,7 @@ export class AuthService {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
     localStorage.removeItem('userID');
+    localStorage.removeItem('userPhone');
     this.userSubject.next(null)
   }
 

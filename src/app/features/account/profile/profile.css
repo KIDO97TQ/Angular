@@ -1,8 +1,14 @@
+.about-amy {
+    padding: 20px 20px;
+    background: linear-gradient(to bottom, #ffffff 0%, #faf9f7 50%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
 .profile-page {
     max-width: 900px;
     margin: auto;
     padding: 30px;
-    background-color: #111827;
 }
 
 .profile-header {
@@ -20,7 +26,7 @@
     margin-top: 30px;
     padding: 20px;
     border-radius: 16px;
-    background: #f9fafb;
+    background: #949493;
     box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
 }
 
@@ -55,7 +61,7 @@
 }
 
 .stat {
-    background: white;
+    background: #949493;
     padding: 16px;
     border-radius: 12px;
     text-align: center;
@@ -73,5 +79,5 @@
 }
 
 .title {
-    color: white;
+    color: var(--text);
 }

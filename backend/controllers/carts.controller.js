@@ -14,7 +14,7 @@ export const addToCart = async (req, res) => {
 
         // 1️⃣ Tìm cart active
         const cartResult = await client.query(
-            `SELECT id FROM clothings.carts
+            `SELECT id FROM kido.carts
        WHERE user_id = $1 AND status = 'active'
        LIMIT 1`,
             [userId]
@@ -25,7 +25,7 @@ export const addToCart = async (req, res) => {
         // 2️⃣ Nếu chưa có cart → tạo mới
         if (cartResult.rows.length === 0) {
             const newCart = await client.query(
-                `INSERT INTO clothings.carts (user_id)
+                `INSERT INTO kido.carts (user_id)
          VALUES ($1)
          RETURNING id`,
                 [userId]
@@ -38,7 +38,7 @@ export const addToCart = async (req, res) => {
 
         // 3️⃣ Thêm / cập nhật cart_items (UPSERT)
         await client.query(
-            `INSERT INTO clothings.cart_items (cart_id, product_id, quantity, price, rental_days)
+            `INSERT INTO kido.cart_items (cart_id, product_id, quantity, price, rental_days)
        VALUES ($1, $2, 1, $3, $4)
        ON CONFLICT (cart_id, product_id)
        DO UPDATE SET
@@ -75,8 +75,8 @@ export const getCartCount = async (req, res) => {
         const result = await pool.query(
             `
       SELECT COALESCE(SUM(ci.quantity), 0) AS count
-      FROM clothings.carts c
-      LEFT JOIN clothings.cart_items ci ON ci.cart_id = c.id
+      FROM kido.carts c
+      LEFT JOIN kido.cart_items ci ON ci.cart_id = c.id
       WHERE c.user_id = $1 AND c.status = 'active'
       `,
             [userId]
@@ -96,6 +96,7 @@ export const getCartCount = async (req, res) => {
 export const getCartByUserId = async (req, res) => {
     try {
         const { id: userId } = req.params;
+        // const userId = req.user.id;
 
         const result = await pool.query(
             `SELECT 
@@ -107,8 +108,8 @@ export const getCartByUserId = async (req, res) => {
                 p.productname,
                 p.size as productsize,
                 c.user_id as userid
-             FROM clothings.carts c
-             INNER JOIN clothings.cart_items ci ON ci.cart_id = c.id
+             FROM kido.carts c
+             INNER JOIN kido.cart_items ci ON ci.cart_id = c.id
              INNER JOIN clothings.products p ON p.productid = ci.product_id
              WHERE c.user_id = $1 AND c.status = 'active'
              ORDER BY ci.created_at DESC`,
@@ -141,7 +142,7 @@ export const updateCartItemQuantity = async (req, res) => {
         }
 
         const result = await pool.query(
-            `UPDATE clothings.cart_items
+            `UPDATE kido.cart_items
              SET quantity = $1
              WHERE id = $2
              RETURNING *`,
@@ -176,7 +177,7 @@ export const removeCartItem = async (req, res) => {
         const { id: cartItemId } = req.params;
 
         const result = await pool.query(
-            `DELETE FROM clothings.cart_items
+            `DELETE FROM kido.cart_items
              WHERE id = $1
              RETURNING *`,
             [cartItemId]
@@ -214,7 +215,7 @@ export const clearCart = async (req, res) => {
 
         // Tìm cart active
         const cartResult = await client.query(
-            `SELECT id FROM clothings.carts
+            `SELECT id FROM kido.carts
              WHERE user_id = $1 AND status = 'active'
              LIMIT 1`,
             [userId]
@@ -232,7 +233,7 @@ export const clearCart = async (req, res) => {
 
         // Xóa tất cả items trong cart
         await client.query(
-            `DELETE FROM clothings.cart_items
+            `DELETE FROM kido.cart_items
              WHERE cart_id = $1`,
             [cartId]
         );
@@ -267,8 +268,8 @@ export const getCartSummary = async (req, res) => {
                 COALESCE(SUM(ci.quantity), 0) as total_items,
                 COALESCE(SUM(ci.price * ci.quantity * ci.rental_days), 0) as total_rent_price,
                 COUNT(DISTINCT ci.product_id) * 100000 as deposit_amount
-             FROM clothings.carts c
-             LEFT JOIN clothings.cart_items ci ON ci.cart_id = c.id
+             FROM kido.carts c
+             LEFT JOIN kido.cart_items ci ON ci.cart_id = c.id
              WHERE c.user_id = $1 AND c.status = 'active'`,
             [userId]
         );
@@ -303,7 +304,7 @@ export const checkoutCart = async (req, res) => {
 
         // Tìm cart active
         const cartResult = await client.query(
-            `SELECT id FROM clothings.carts
+            `SELECT id FROM kido.carts
              WHERE user_id = $1 AND status = 'active'
              LIMIT 1`,
             [userId]
@@ -321,7 +322,7 @@ export const checkoutCart = async (req, res) => {
 
         // Kiểm tra có items không
         const itemsCheck = await client.query(
-            `SELECT COUNT(*) as count FROM clothings.cart_items
+            `SELECT COUNT(*) as count FROM kido.cart_items
              WHERE cart_id = $1`,
             [cartId]
         );
@@ -336,7 +337,7 @@ export const checkoutCart = async (req, res) => {
 
         // Cập nhật status cart thành 'completed'
         await client.query(
-            `UPDATE clothings.carts
+            `UPDATE kido.carts
              SET status = 'completed'
              WHERE id = $1`,
             [cartId]

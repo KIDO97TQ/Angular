@@ -222,7 +222,7 @@
 }
 
 .product-card {
-    background: white;
+    background: rgb(210, 212, 195);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
@@ -330,7 +330,7 @@
     margin-bottom: 12px;
     line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    /* -webkit-line-clamp: 2; */
     -webkit-box-orient: vertical;
     overflow: hidden;
 
@@ -499,10 +499,11 @@
 }
 
 .pagination {
+    margin: 20px 0 15px 0;
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    background: white;
+    background: var(--bg);
     padding: var(--space-md);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-soft);
@@ -538,6 +539,7 @@
 .page-numbers {
     display: flex;
     gap: var(--space-xs);
+    margin: 10px 10px 10px 10px;
 }
 
 .page-number {
@@ -562,7 +564,7 @@
 
 .page-number.active {
     background: var(--gradient-sunset);
-    color: white;
+    color: var(--text);
     border-color: var(--primary);
     box-shadow: var(--shadow-color);
 }

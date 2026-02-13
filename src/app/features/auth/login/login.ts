@@ -114,7 +114,7 @@ export class LoginComponent {
           this.authService.saveToken(res.token);
           this.authService.setUsername(res.user.username);
           this.authService.setUserID(res.user.id);
-
+          this.authService.setUserPhone(res.user.userphone);
           this.isLoggedIn = true;
           this.Loadingcart(res.user.id);
 

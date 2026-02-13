@@ -11,7 +11,7 @@ export class ProfileComponent {
     username: 'LuongEm',
     phone: '0988424735',
     joinedAt: '2024-05-12',
-    totalRentals: 30
+    totalRentals: 120
   };
 
   rank = this.getMemberRank(this.user.totalRentals);
@@ -24,7 +24,7 @@ export class ProfileComponent {
       return { name: 'Vàng', icon: 'bi-award-fill', color: '#facc15', next: 60 };
     }
     if (total >= 10) {
-      return { name: 'Bạc', icon: 'bi-award', color: '#777d86', next: 30 };
+      return { name: 'Bạc', icon: 'bi-award', color: '#cddaee', next: 30 };
     }
     return { name: 'Đồng', icon: 'bi-shield', color: '#d97706', next: 10 };
   }

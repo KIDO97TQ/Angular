@@ -64,7 +64,10 @@
                                 <p class="item-price">{{ item.productprice | currency:'VND':'symbol':'1.0-0' }} <span
                                         class="price-unit">/ ngày</span></p>
                             </div>
+
                             <div class="item-actions">
+                                <input type="checkbox" [checked]="item.selected"
+                                    (change)="cartService.toggleSelection(item.id)" />
                                 <div class="quantity-control">
                                     <button class="qty-btn" (click)="updateQuantity(item, -1)">
                                         <svg width="16" height="16" viewBox="0 0 16 16" stroke="currentColor"
@@ -98,13 +101,15 @@
 
                             <div class="summary-row">
                                 <span class="label">Tổng giá thuê:</span>
-                                <span class="value">{{ cartService.totalRentPrice() | currency:'VND':'symbol':'1.0-0'
+                                <span class="value">{{ cartService.selectedTotalPrice() |
+                                    currency:'VND':'symbol':'1.0-0'
                                     }}</span>
                             </div>
 
                             <div class="summary-row highlight">
                                 <span class="label">Số lượng sản phẩm:</span>
-                                <span class="value">{{ cartService.items().length }} món</span>
+                                <span class="value">{{ cartService.selectedTotalQuantity() }} món</span>
+                                <!-- <span class="value">{{ cartService.items().length }} món</span> -->
                             </div>
 
                             <div class="summary-divider"></div>

@@ -13,6 +13,7 @@ export interface CartItem {
   productsize: string;
   quantity: number;
   imageUrl?: string;
+  selected?: boolean;
 }
 
 @Injectable({
@@ -56,8 +57,22 @@ export class CartsService {
   // detail carts
   items = computed(() => this.cartItems());
   totalItems = computed(() => this.cartItems().reduce((sum, item) => sum + item.quantity, 0));
-  depositAmount = computed(() => this.cartItems().length * 100000);
+  depositAmount = computed(() => this.selectedTotalQuantity() * 100000);
   totalRentPrice = computed(() => this.cartItems().reduce((sum, item) => sum + (item.productprice * item.quantity), 0));
+
+  selectedItems = computed(() => this.cartItems().filter(item => item.selected));
+  selectedTotalPrice = computed(() => this.selectedItems().reduce((sum, item) => sum + item.productprice * item.quantity, 0));
+  selectedTotalQuantity = computed(() => this.selectedItems().reduce((sum, item) => sum + item.quantity, 0));
+
+  toggleSelection(cartId: number) {
+    this.cartItems.update(items =>
+      items.map(item =>
+        item.id === cartId
+          ? { ...item, selected: !item.selected }
+          : item
+      )
+    );
+  }
 
   getCartByUserId(userId: string): Observable<CartItem[]> {
     return this.http.get<CartItem[]>(`${this.apiUrl}/carts/users/${userId}`).pipe(

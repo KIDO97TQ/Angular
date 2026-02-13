@@ -5,11 +5,12 @@ import { CartsService, CartItem } from '../../../Core/services/carts';
 import { AuthService } from '../../../Core/auth/auth-service';
 import { ToastrService } from 'ngx-toastr';
 import { ChangeDetectorRef } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-carts',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './carts.html',
   styleUrl: './carts.css',
 })
@@ -22,6 +23,9 @@ export class CartComponent implements OnInit {
   cd = inject(ChangeDetectorRef);
   isLoading = true;
 
+  toggleSelection(cartId: number) {
+    this.cartService.toggleSelection(cartId);
+  }
 
   getProgressPercentage(): number {
     const itemCount = this.cartService.items().length;
