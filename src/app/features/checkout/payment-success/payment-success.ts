@@ -57,7 +57,7 @@ export class PaymentSuccessComponent implements OnInit {
   }
 
   checkOrder() {
-    this.PaymentService.payments(this.orderCode)
+    this.PaymentService.checkStatusOrder(this.orderCode)
       .subscribe({
         next: (res) => {
           this.status = res.status;

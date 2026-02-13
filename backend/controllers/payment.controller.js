@@ -94,11 +94,12 @@ export const createPaymentLink = async (req, res) => {
 // ================================
 export const payosWebhook = async (req, res) => {
     try {
-        const webhookData = payOS.webhooks.verify(req.body);
+        // ⚠️ BẮT BUỘC await
+        const webhookData = await payOS.webhooks.verify(req.body);
 
         console.log("📩 Webhook:", webhookData);
 
-        // ⚠️ Trả 200 ngay lập tức
+        // Trả 200 ngay để tránh timeout
         res.status(200).send("OK");
 
         if (webhookData.code === "00") {
@@ -118,10 +119,11 @@ export const payosWebhook = async (req, res) => {
     } catch (error) {
         console.error("❌ Webhook error:", error.message);
 
-        // Luôn trả 200 để tránh PayOS retry spam
+        // vẫn trả 200 để tránh PayOS retry spam
         res.status(200).send("OK");
     }
 };
+
 
 
 
