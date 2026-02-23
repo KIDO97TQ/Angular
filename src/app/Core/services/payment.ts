@@ -16,6 +16,6 @@ export class PaymentService {
     }
 
     checkStatusOrder(orderCode: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/payment/order-status`, orderCode);
+        return this.http.post(`${this.apiUrl}/payment/order-status`, { orderCode });
     }
 }

@@ -1,9 +1,8 @@
-import { getOrderStatus, createPaymentLink, payosWebhook } from "../controllers/payment.controller.js";
+import { getOrderStatus, createPaymentLink, payosWebhook, getPaymentHistory } from "../controllers/payment.controller.js";
 import { verifyToken } from "../middleware/auth.middleware.js";
 import express from "express";
 
 const router = express.Router();
-
 // Checkout
 router.post("/create-payment", verifyToken, createPaymentLink);
 
@@ -11,6 +10,8 @@ router.post("/create-payment", verifyToken, createPaymentLink);
 router.post("/webhook", payosWebhook);
 
 //check xem user chuyển tiền chưa
-router.get("/order-status", verifyToken, getOrderStatus);
+router.post("/order-status", verifyToken, getOrderStatus);
+//router.post("/order-status", getOrderStatus);
 
+router.get("/order-history", verifyToken, getPaymentHistory);
 export default router;

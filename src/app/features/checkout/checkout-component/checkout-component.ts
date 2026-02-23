@@ -27,6 +27,7 @@ export class CheckoutComponent implements OnInit {
   PaymentService = inject(PaymentService);
   router = inject(Router);
   cartItems: CartItem[] = [];
+  isLoading = false;
 
   username = localStorage.getItem('username');
   userPhone = localStorage.getItem('userphone');
@@ -35,15 +36,25 @@ export class CheckoutComponent implements OnInit {
   checkoutForm = this.fb.group({
     fullname: [this.username, Validators.required],
     phone: [this.userPhone, Validators.required],
-    rentDate: ['', Validators.required],
+    rentDate: [this.getToday(), Validators.required],
     returnDate: ['', Validators.required]
   });
+
+  today = this.getToday();
+
+  getToday(): string {
+    const today = new Date();
+    const offset = today.getTimezoneOffset();
+    const localDate = new Date(today.getTime() - offset * 60000);
+    return localDate.toISOString().split('T')[0];
+  }
 
   ngOnInit() {
     this.cartItems = this.cartService.selectedItems();
 
     if (this.cartItems.length === 0) {
       alert('Bạn chưa chọn sản phẩm nào');
+      this.router.navigate(['/cart']);
     }
   }
 
@@ -54,11 +65,15 @@ export class CheckoutComponent implements OnInit {
 
     if (!rent || !ret) return 0;
 
-    const start = new Date(rent).getTime();
-    const end = new Date(ret).getTime();
+    const start = new Date(rent);
+    const end = new Date(ret);
 
-    const diff = (end - start) / (1000 * 60 * 60 * 24);
-    return diff > 0 ? diff : 0;
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    const diff = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+    return diff >= 0 ? diff + 1 : 0;
+
   }
 
   // ===== TÍNH TIỀN =====
@@ -98,6 +113,8 @@ export class CheckoutComponent implements OnInit {
   // ===== CONFIRM =====
   createDepositPayment() {
 
+    if (this.isLoading) return; // 🔥 chặn double click
+
     if (this.checkoutForm.invalid || this.rentalDays <= 0) {
       alert('Vui lòng nhập đầy đủ thông tin và chọn ngày hợp lệ');
       return;
@@ -107,6 +124,8 @@ export class CheckoutComponent implements OnInit {
       alert("Vui lòng đăng nhập");
       return;
     }
+
+    this.isLoading = true; // 🔥 bật loading
 
     const payload = {
       userId: this.userid,
@@ -120,7 +139,7 @@ export class CheckoutComponent implements OnInit {
         productname: item.productname
       }))
     };
-    console.log(payload);
+
     this.PaymentService.payments(payload).subscribe({
       next: (res: any) => {
         window.location.href = res.checkoutUrl;
@@ -128,6 +147,7 @@ export class CheckoutComponent implements OnInit {
       error: (err) => {
         console.error(err);
         alert("Có lỗi khi tạo thanh toán");
+        this.isLoading = false;
         this.router.navigate(['/cart']);
       }
     });

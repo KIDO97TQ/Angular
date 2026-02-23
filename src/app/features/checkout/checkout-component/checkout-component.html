@@ -11,7 +11,7 @@
                 <img [src]="item.imageUrl" [alt]="item.productname">
             </div>
             <div>
-                <strong>{{ item.productname }}</strong>
+                <strong class="name-user">{{ item.productname }}</strong>
                 <p>{{ item.productprice | number }}đ / ngày</p>
             </div>
             <div>x{{ item.quantity }}</div>
@@ -29,10 +29,10 @@
         <input type="text" placeholder="Số điện thoại" formControlName="phone" />
 
         <label>Ngày thuê</label>
-        <input type="date" formControlName="rentDate" />
+        <input type="date" formControlName="rentDate" [min]="today" />
 
         <label>Ngày trả</label>
-        <input type="date" formControlName="returnDate" />
+        <input type="date" formControlName="returnDate" [min]="today" />
 
     </form>
 
@@ -54,8 +54,15 @@
     </div> -->
 
 
-    <button class="checkout-btn" (click)="createDepositPayment()">
-        Xác nhận thuê
+    <button class="checkout-btn" (click)="createDepositPayment()" [disabled]="isLoading">
+
+        <span *ngIf="!isLoading">Xác nhận thuê</span>
+
+        <span *ngIf="isLoading" class="btn-loading">
+            <span class="spinner"></span>
+            Đang xử lý...
+        </span>
+
     </button>
 
 </div>

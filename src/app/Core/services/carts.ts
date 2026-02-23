@@ -57,7 +57,7 @@ export class CartsService {
   // detail carts
   items = computed(() => this.cartItems());
   totalItems = computed(() => this.cartItems().reduce((sum, item) => sum + item.quantity, 0));
-  depositAmount = computed(() => this.selectedTotalQuantity() * 100000);
+  depositAmount = computed(() => this.selectedTotalQuantity() * 1000);
   totalRentPrice = computed(() => this.cartItems().reduce((sum, item) => sum + (item.productprice * item.quantity), 0));
 
   selectedItems = computed(() => this.cartItems().filter(item => item.selected));

@@ -6,6 +6,10 @@
     font-family: 'Inter', sans-serif;
 }
 
+h3 {
+    color: black;
+}
+
 /* ===== LOADING ===== */
 .loading-container {
     min-height: 60vh;
