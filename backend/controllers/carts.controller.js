@@ -67,7 +67,6 @@ export const addToCart = async (req, res) => {
 };
 
 // 2 get qty carts 
-
 export const getCartCount = async (req, res) => {
     try {
         const { id: userId } = req.params;

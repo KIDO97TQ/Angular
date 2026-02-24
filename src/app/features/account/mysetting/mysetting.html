@@ -5,8 +5,9 @@
     <!-- ACCOUNT INFO -->
     <section class="card">
         <h3>Thông tin tài khoản</h3>
-        <p><strong>Tên:</strong> demo_user</p>
-        <p><strong>Ngày tham gia:</strong> 12/01/2024</p>
+        <p><strong>Tên:</strong> {{ authService.user$ | async }}</p>
+        <p><strong>Tên:</strong> {{ authService.userphone$ | async }}</p>
+        <p><strong>Ngày tham gia:</strong> {{ authService.userdate$ | async | date:'dd/MM/yyyy' }}</p>
     </section>
 
     <!-- THEME -->
@@ -23,11 +24,47 @@
         <h3>Đổi mật khẩu</h3>
 
         <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
-            <input type="password" placeholder="Mật khẩu hiện tại" formControlName="currentPassword">
+            <div class="input-group">
+                <input [type]="showCurrent ? 'text' : 'password'" placeholder="Mật khẩu hiện tại"
+                    formControlName="currentPassword" (blur)="checkCurrentPassword()" />
 
-            <input type="password" placeholder="Mật khẩu mới" formControlName="newPassword">
+                <!-- 🔄 Loading -->
+                <i *ngIf="isChecking" class="bi bi-arrow-repeat spin icon"></i>
 
-            <button type="submit" [disabled]="passwordForm.invalid">
+                <!-- ✔ Đúng -->
+                <i *ngIf="!isChecking && isCurrentPasswordValid" class="bi bi-check-circle-fill success icon"></i>
+
+                <!-- ✖ Sai -->
+                <i *ngIf="!isChecking && passwordForm.get('currentPassword')?.errors?.['wrongPassword']"
+                    class="bi bi-x-circle-fill error icon"></i>
+
+                <!-- 👁 Mặc định -->
+                <i *ngIf="!isChecking 
+            && !isCurrentPasswordValid 
+            && !passwordForm.get('currentPassword')?.errors?.['wrongPassword']" class="bi"
+                    [ngClass]="showCurrent ? 'bi-eye-slash' : 'bi-eye'" (click)="togglePassword('current')">
+                </i>
+            </div>
+
+            <div *ngIf="passwordForm.get('currentPassword')?.errors?.['wrongPassword']" class="error-text">
+                Mật khẩu hiện tại không đúng
+            </div>
+
+            <div class="input-group">
+                <input [type]="showNew ? 'text' : 'password'" placeholder="Mật khẩu mới" formControlName="newPassword">
+                <i class="bi" [ngClass]="showNew ? 'bi-eye-slash' : 'bi-eye'" (click)="togglePassword('new')"></i>
+            </div>
+
+            <div class="input-group">
+                <input [type]="showRenew ? 'text' : 'password'" placeholder="Nhập lại mật khẩu mới"
+                    formControlName="renewPassword">
+                <i class="bi" [ngClass]="showRenew ? 'bi-eye-slash' : 'bi-eye'" (click)="togglePassword('renew')"></i>
+            </div>
+            <div class="error-text" *ngIf="passwordForm.errors?.['passwordMismatch'] && passwordForm.touched">
+                Mật khẩu mới không khớp
+            </div>
+
+            <button type="submit" [disabled]="passwordForm.invalid || !isCurrentPasswordValid">
                 Cập nhật mật khẩu
             </button>
         </form>
@@ -38,7 +75,7 @@
         <h3>Bảo mật</h3>
         <button class="danger-btn" (click)="logoutAll()">
             <i class="bi bi-shield-lock"></i>
-            Đăng xuất tất cả thiết bị
+            Đăng xuất khỏi tất cả thiết bị
         </button>
     </section>
 

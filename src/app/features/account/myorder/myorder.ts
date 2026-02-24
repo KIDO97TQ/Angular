@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { OrderService } from '../../../Core/services/order';
+import { ChangeDetectorRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface Rental {
   id: number;
-  name: string;
-  image: string;
-  startDate: string;
-  endDate: string;
-  price: number;
-  status: 'active' | 'returned' | 'overdue' | 'cancelled';
-  daysRemaining?: number;
+  order_code: string;
+  total_amount: number;
+  deposit_amount: number;
+  startdate: string;
+  status: string;
+  checkout_url: string;
 }
 
 @Component({
@@ -21,96 +23,54 @@ interface Rental {
   styleUrl: './myorder.css',
 })
 export class MyorderComponent implements OnInit {
-  activeTab: 'current' | 'history' = 'current';
+  orderService = inject(OrderService);
+  cd = inject(ChangeDetectorRef);
+  router = inject(Router);
+
+  activeTab: 'pending' | 'history' = 'pending';
   searchTerm: string = '';
   sortBy: 'date' | 'price' | 'name' = 'date';
 
-  rentals: Rental[] = [
-    {
-      id: 1,
-      name: 'Váy dài lụa cao cấp',
-      image: 'assets/products/dress1.jpg',
-      startDate: '2024-02-08',
-      endDate: '2024-02-15',
-      price: 500000,
-      status: 'active',
-      daysRemaining: 5
-    },
-    {
-      id: 2,
-      name: 'Áo dài truyền thống',
-      image: 'assets/products/aodai.jpg',
-      startDate: '2024-02-01',
-      endDate: '2024-02-10',
-      price: 800000,
-      status: 'overdue',
-      daysRemaining: -1
-    },
-    {
-      id: 3,
-      name: 'Váy tiệc sang trọng',
-      image: 'assets/products/party-dress.jpg',
-      startDate: '2024-01-15',
-      endDate: '2024-01-20',
-      price: 1200000,
-      status: 'returned'
-    },
-    {
-      id: 4,
-      name: 'Chân váy công sở',
-      image: 'assets/products/skirt.jpg',
-      startDate: '2024-01-10',
-      endDate: '2024-01-12',
-      price: 300000,
-      status: 'cancelled'
-    }
-  ];
+  rentals: Rental[] = [];
+  loading = false;
+  error = '';
 
   ngOnInit() {
-    this.updateDaysRemaining();
-    // Update countdown every day
-    setInterval(() => this.updateDaysRemaining(), 86400000);
-  }
+    this.loading = true;
 
-  updateDaysRemaining() {
-    const today = new Date();
-    this.rentals.forEach(rental => {
-      if (rental.status === 'active' || rental.status === 'overdue') {
-        const endDate = new Date(rental.endDate);
-        const diffTime = endDate.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        rental.daysRemaining = diffDays;
-
-        // Auto-update status if overdue
-        if (diffDays < 0 && rental.status === 'active') {
-          rental.status = 'overdue';
-        }
+    this.orderService.getUserRentals().subscribe({
+      next: (res) => {
+        this.rentals = Array.isArray(res) ? res : res.data || [];
+        this.loading = false;
+        this.cd.detectChanges();
+        console.log(this.rentals);
+      },
+      error: (err) => {
+        this.error = 'Không thể tải đơn hàng';
+        this.loading = false;
       }
     });
   }
 
+  /* ================= FILTER ================= */
+
   get filteredRentals() {
     let filtered = this.rentals;
 
-    // Filter by tab
-    if (this.activeTab === 'current') {
-      filtered = filtered.filter(r =>
-        r.status === 'active' || r.status === 'overdue'
-      );
+    if (this.activeTab === 'pending') {
+      filtered = filtered.filter(r => r.status === 'pending');
     } else {
       filtered = filtered.filter(r =>
-        r.status === 'returned' || r.status === 'cancelled'
+        r.status === 'paid' || r.status === 'expired'
       );
     }
 
-    // Filter by search term
     if (this.searchTerm) {
       filtered = filtered.filter(r =>
-        r.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        r.order_code.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
 
-    // Sort
     return this.sortRentals(filtered);
   }
 
@@ -118,70 +78,57 @@ export class MyorderComponent implements OnInit {
     return [...rentals].sort((a, b) => {
       switch (this.sortBy) {
         case 'date':
-          return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+          return new Date(b.startdate).getTime() - new Date(a.startdate).getTime();
         case 'price':
-          return b.price - a.price;
+          return b.total_amount - a.total_amount;
         case 'name':
-          return a.name.localeCompare(b.name);
+          return a.order_code.localeCompare(b.order_code);
         default:
           return 0;
       }
     });
   }
 
+  /* ================= COUNT ================= */
+
   get currentCount() {
-    return this.rentals.filter(r =>
-      r.status === 'active' || r.status === 'overdue'
-    ).length;
+    return this.rentals.filter(r => r.status === 'pending').length;
   }
 
   get historyCount() {
     return this.rentals.filter(r =>
-      r.status === 'returned' || r.status === 'cancelled'
+      r.status === 'paid' || r.status === 'expired'
     ).length;
   }
 
-  setTab(tab: 'current' | 'history') {
+  setTab(tab: 'pending' | 'history') {
     this.activeTab = tab;
+  }
+
+  /* ================= ACTIONS ================= */
+
+  viewDetail(id: number, orderid: string) {
+    //console.log('Xem chi tiết đơn:', id);
+    this.router.navigate(['/order-detail'], {
+      queryParams: { id, orderid }
+    });
+  }
+
+  payRental(order: Rental) {
+    window.location.href = order.checkout_url;
+    console.log(order.checkout_url);
+  }
+
+  buyAgain(id: number) {
+    console.log('Mua lại đơn:', id);
+    // Điều hướng về trang sản phẩm
   }
 
   getStatusLabel(status: string) {
     return {
-      active: 'Đang thuê',
-      overdue: 'Quá hạn',
-      returned: 'Đã trả',
-      cancelled: 'Đã huỷ'
+      pending: 'Chờ thanh toán',
+      paid: 'Đã thanh toán',
+      expired: 'Đã hết hạn'
     }[status];
-  }
-
-  extendRental(id: number) {
-    console.log('Gia hạn đơn:', id);
-    // Implement extend logic
-  }
-
-  cancelRental(id: number) {
-    if (confirm('Bạn có chắc muốn huỷ đơn này?')) {
-      const rental = this.rentals.find(r => r.id === id);
-      if (rental) {
-        rental.status = 'cancelled';
-      }
-    }
-  }
-
-  reviewRental(id: number) {
-    console.log('Đánh giá đơn:', id);
-    // Navigate to review page
-  }
-
-  getDaysRemainingText(rental: Rental): string {
-    if (!rental.daysRemaining) return '';
-
-    if (rental.daysRemaining < 0) {
-      return `Quá hạn ${Math.abs(rental.daysRemaining)} ngày`;
-    } else if (rental.daysRemaining === 0) {
-      return 'Hết hạn hôm nay';
-    } else {
-      return `Còn ${rental.daysRemaining} ngày`;
-    }
   }
 }

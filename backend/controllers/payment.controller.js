@@ -17,7 +17,6 @@ export const createPaymentLink = async (req, res) => {
 
         await client.query("BEGIN");
 
-        // const orderCode = Math.floor(Date.now() / 1000);
         const orderCode = Date.now();
 
         const orderResult = await client.query(
@@ -66,6 +65,13 @@ export const createPaymentLink = async (req, res) => {
         };
 
         const paymentResponse = await payOS.paymentRequests.create(paymentData);
+
+        await client.query(
+            `UPDATE kido.orders 
+             SET checkout_url = $1 
+             WHERE id = $2`,
+            [paymentResponse.checkoutUrl, orderId]
+        );
 
         await client.query("COMMIT");
 
@@ -144,6 +150,19 @@ export const payosWebhook = async (req, res) => {
                  updated_at = CURRENT_TIMESTAMP
              WHERE id = $1`,
             [order.id]
+        );
+
+        // 💾 Save payment log
+        await client.query(
+            `INSERT INTO kido.payments
+             (order_id, transaction_id, amount, status, raw_data)
+             VALUES ($1,$2,$3,'success',$4)`,
+            [
+                order.id,
+                webhookData.transactionId,
+                webhookData.amount,
+                JSON.stringify(webhookData)
+            ]
         );
 
         // 🛒 Clear selected items

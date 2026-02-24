@@ -27,8 +27,19 @@ export class UserService {
   // Check username có tồn tại không
   checkUsername(username: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/auth/check-username/${username}`);
+  }
 
-    // Hoặc dùng POST nếu backend yêu cầu:
-    //return this.http.post(`${this.apiUrl}/auth/check-username`, { username });
+  // check mật khẩu cũ
+  checkCurrentPassword(currentPassword: string) {
+    return this.http.post<any>(`${this.apiUrl}/auth/check-password`,
+      { currentPassword }
+    );
+  }
+
+  // update mật khẩu
+  updatePassword(newPassword: string) {
+    return this.http.put<any>(`${this.apiUrl}/auth/update-password`,
+      { newPassword }
+    );
   }
 }

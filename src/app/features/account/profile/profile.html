@@ -5,8 +5,9 @@
         <div class="profile-header">
             <i class="bi bi-person-badge avatar"></i>
             <div>
-                <h2 class="title">{{ user.username }}</h2>
-                <p class="title">Tham gia từ {{ user.joinedAt }}</p>
+                <h2 class="title">{{ authService.user$ | async }}</h2>
+                <h2 class="title">{{ authService.userphone$ | async }}</h2>
+                <p class="title">Tham gia từ: {{ authService.userdate$ | async | date:'dd/MM/yyyy' }}</p>
             </div>
         </div>
 
@@ -17,13 +18,13 @@
                 <h3>{{ rank.name }}</h3>
             </div>
 
-            <p class="text">Đã thuê <strong>{{ user.totalRentals }}</strong> sản phẩm</p>
+            <p class="text">Đã thuê <strong>{{ totalRentals }}</strong> sản phẩm</p>
 
             @if (rank.next) {
             <div class="progress-box">
-                <span class="text">Còn {{ rank.next - user.totalRentals }} sản phẩm để lên bậc tiếp theo</span>
+                <span class="text">Còn {{ rank.next - totalRentals }} sản phẩm để lên bậc tiếp theo</span>
                 <div class="progress-bar">
-                    <div class="progress-fill" [style.width.%]="(user.totalRentals / rank.next) * 100"></div>
+                    <div class="progress-fill" [style.width.%]="(totalRentals / rank.next) * 100"></div>
                 </div>
             </div>
             } @else {
@@ -35,14 +36,14 @@
         <div class="stats">
             <div class="stat">
                 <i class="bi bi-calendar-check"></i>
-                <span class="text">{{ user.totalRentals }}</span>
+                <span class="text">{{ totalRentals }}</span>
                 <small class="text">Sản phẩm đã thuê</small>
             </div>
 
             <div class="stat">
                 <i class="bi bi-clock-history"></i>
-                <span class="text">12</span>
-                <small class="text">Lần thuê gần nhất</small>
+                <small class="text">Lần thuê gần nhất:</small>
+                <span class="text">{{maxDate | date:'dd/MM/yyyy' }}</span>
             </div>
         </div>
 

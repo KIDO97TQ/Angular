@@ -16,7 +16,7 @@ export const login = async (req, res) => {
 
         // 2️⃣ Tìm user
         const result = await pool.query(
-            "SELECT id, username, password, email as userphone FROM kido.userskido WHERE username = $1 OR email = $1",
+            "SELECT id, username, password, email as userphone, createdate FROM kido.userskido WHERE username = $1 OR email = $1",
             [user]
         );
 
@@ -42,7 +42,8 @@ export const login = async (req, res) => {
             {
                 id: dbUser.id,
                 username: dbUser.username,
-                userphone: dbUser.userphone
+                userphone: dbUser.userphone,
+                createdate: dbUser.createdate
             },
             process.env.JWT_SECRET
         );
@@ -54,7 +55,8 @@ export const login = async (req, res) => {
             user: {
                 id: dbUser.id,
                 username: dbUser.username,
-                userphone: dbUser.userphone
+                userphone: dbUser.userphone,
+                createdate: dbUser.createdate
             }
         });
 
@@ -163,6 +165,89 @@ export const signup = async (req, res) => {
         console.error("Signup error:", err);
         res.status(500).json({
             message: err + "Server error during signup"
+        });
+    }
+};
+
+// ========== 4. CHECK CURRENT PASSWORD ==========
+export const checkCurrentPassword = async (req, res) => {
+    try {
+        const userId = req.user.id; // lấy từ verifyToken
+        const { currentPassword } = req.body;
+
+        if (!currentPassword) {
+            return res.status(400).json({
+                message: "Vui lòng nhập mật khẩu hiện tại"
+            });
+        }
+
+        // Lấy password từ DB
+        const { rows } = await pool.query(
+            "SELECT password FROM kido.userskido WHERE id = $1",
+            [userId]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: "Không tìm thấy user"
+            });
+        }
+
+        const isMatch = await bcrypt.compare(
+            currentPassword,
+            rows[0].password
+        );
+
+        if (!isMatch) {
+            return res.status(401).json({
+                valid: false,
+                message: "Mật khẩu hiện tại không đúng"
+            });
+        }
+
+        res.json({
+            valid: true,
+            message: "Mật khẩu chính xác"
+        });
+
+    } catch (err) {
+        console.error("Check password error:", err);
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+};
+
+// ========== 5. UPDATE PASSWORD ==========
+export const updatePassword = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { newPassword } = req.body;
+
+        if (!newPassword || newPassword.length < 6) {
+            return res.status(400).json({
+                message: "Mật khẩu mới phải ít nhất 6 ký tự"
+            });
+        }
+
+        // Hash password mới
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+        // Update DB
+        await pool.query(
+            "UPDATE kido.userskido SET password = $1 WHERE id = $2",
+            [hashedPassword, userId]
+        );
+
+        res.json({
+            message: "Cập nhật mật khẩu thành công"
+        });
+
+    } catch (err) {
+        console.error("Update password error:", err);
+        res.status(500).json({
+            message: "Server error"
         });
     }
 };

@@ -14,6 +14,7 @@ import userRoutes from "./routes/user.route.js";
 import productRoutes from "./routes/products.route.js";
 import cartsRoutes from "./routes/carts.route.js";
 import paymentRoutes from "./routes/payment.route.js";
+import orderRoutes from "./routes/order.route.js";
 
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/carts", cartsRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/order", orderRoutes);
 
 
 try {

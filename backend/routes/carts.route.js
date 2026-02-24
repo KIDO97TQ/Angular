@@ -1,9 +1,11 @@
-import { addToCart, getCartCount, getCartByUserId, getCartSummary, updateCartItemQuantity, removeCartItem, clearCart, checkoutCart } from "../controllers/carts.controller.js";
+import {
+    addToCart, getCartCount, getCartByUserId, getCartSummary,
+    updateCartItemQuantity, removeCartItem, clearCart, checkoutCart
+} from "../controllers/carts.controller.js";
 import { verifyToken } from "../middleware/auth.middleware.js";
 import express from "express";
 
 const router = express.Router();
-
 // add carts
 router.post("/addcarts/:id", verifyToken, addToCart);
 
@@ -27,4 +29,5 @@ router.delete("/users/:id/cart", verifyToken, clearCart);
 
 // Checkout
 router.post("/users/:id/cart/checkout", verifyToken, checkoutCart);
+
 export default router;

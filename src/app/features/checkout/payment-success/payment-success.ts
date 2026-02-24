@@ -19,7 +19,7 @@ export class PaymentSuccessComponent implements OnInit, OnDestroy {
   private paymentService = inject(PaymentService);
   cartService = inject(CartsService);
 
-  status: 'paid' | 'pending' | 'failed' | '' = '';
+  status: 'paid' | 'pending' | 'failed' | 'expired' | '' = '';
   loading = true;
   intervalId: any;
   orderCode!: string;

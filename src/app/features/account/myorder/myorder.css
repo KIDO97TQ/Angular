@@ -244,6 +244,8 @@
     flex-direction: column;
     gap: 8px;
     justify-content: center;
+    white-space: nowrap;
+    width: fit-content;
 }
 
 .info h3 {
@@ -294,6 +296,7 @@
     white-space: nowrap;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     animation: bounceIn 0.5s ease-out;
+    width: fit-content;
 }
 
 @keyframes bounceIn {
@@ -365,7 +368,9 @@
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    position: relative;
+    z-index: 10;
 }
 
 .action-btn.extend {
@@ -399,6 +404,7 @@
     box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
+
 /* Countdown Timer for Overdue */
 .countdown {
     font-size: 12px;
@@ -414,7 +420,7 @@
 }
 
 .bi {
-    color: white;
+    color: blue;
     z-index: 9999;
 }
 

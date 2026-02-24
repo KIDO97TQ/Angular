@@ -1,0 +1,80 @@
+<!-- src/app/features/cart/cart.component.html -->
+<div class="cart-page">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Đang tải đơn hàng...</p>
+    </div>
+
+    <!-- Cart Content -->
+    <div *ngIf="!isLoading">
+        <!-- Header -->
+        <section class="cart-header">
+            <div class="container">
+
+                <!-- Title (row 1) -->
+                <h1 class="page-title">Đơn hàng của bạn {{orderID}}</h1>
+
+                <!-- Actions (row 2) -->
+                <div class="cart-header-actions">
+                    <button class="back-btn" (click)="continueShopping()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" />
+                        </svg>
+                        Quay lại thông tin đơn hàng
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+
+
+        <!-- Cart Content -->
+        <section class="cart-content">
+            <div class="container">
+                <div class="cart-layout">
+
+                    <!-- Cart Items -->
+                    <div class="cart-items">
+                        <div *ngIf="OrderService.items().length === 0" class="empty-cart">
+                            <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                                <circle cx="60" cy="60" r="60" fill="#f5f5f5" />
+                                <path d="M40 50h40M40 65h40M40 80h25" stroke="#ccc" stroke-width="3"
+                                    stroke-linecap="round" />
+                            </svg>
+                            <h3>Đơn hàng trống</h3>
+                            <p>Hãy thêm sản phẩm để tiếp tục</p>
+                            <button class="btn-primary" (click)="continueShopping()">Khám phá ngay</button>
+                        </div>
+
+                        <div *ngFor="let item of OrderService.items()" class="cart-item">
+                            <div class="item-image">
+                                <img [src]="item.imageUrl" [alt]="item.productname">
+                            </div>
+                            <div class="item-details">
+                                <h3 class="item-name">{{ item.productname }}</h3>
+                                <p class="item-size">QTY: {{ item.quantity }}</p>
+                                <p class="item-size">Giá: {{ item.price| currency:'VND':'symbol':'1.0-0'
+                                    }} / ngày
+                                </p>
+                                <p class="item-size">Số ngày thuê: {{ item.rental_days }} ngày</p>
+                                <p class="item-size">Tổng tiền: {{ item.subtotal| currency:'VND':'symbol':'1.0-0' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="back-btn" (click)="continueShopping()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" />
+                        </svg>
+                        Thuê lại hoặc thanh toán
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

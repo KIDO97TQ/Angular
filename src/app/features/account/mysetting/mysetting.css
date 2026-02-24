@@ -16,8 +16,10 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
-.card h3 {
+.card h3,
+p {
     margin-bottom: 12px;
+    color: black;
 }
 
 input {
@@ -58,4 +60,73 @@ button:disabled {
 
 .danger-btn {
     background: #ef4444;
+}
+
+.error-text {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.input-group i {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.spin {
+    animation: spin 0.8s linear infinite;
+    cursor: default;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.icon {
+    font-size: 18px;
+    cursor: default;
+}
+
+/* Spinner */
+.spin {
+    animation: spin 0.8s linear infinite;
+    color: #3b82f6;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Success */
+.success {
+    color: #16a34a;
+}
+
+/* Error */
+.error {
+    color: #dc2626;
 }

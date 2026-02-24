@@ -1,8 +1,8 @@
 <div class="rentals-page">
 
-    <h2>Đơn thuê của tôi</h2>
+    <h2>Đơn hàng của tôi</h2>
 
-    <!-- FILTER & SORT -->
+    <!-- FILTER -->
     <div class="filter-section">
         <div class="search-box">
             <i class="bi bi-search"></i>
@@ -10,20 +10,20 @@
         </div>
 
         <select class="sort-dropdown" [(ngModel)]="sortBy">
-            <option value="date">Sắp xếp: Mới nhất</option>
-            <option value="price">Sắp xếp: Giá cao nhất</option>
-            <option value="name">Sắp xếp: Tên A-Z</option>
+            <option value="date">Mới nhất</option>
+            <option value="price">Giá cao nhất</option>
+            <option value="name">Tên A-Z</option>
         </select>
     </div>
 
     <!-- TABS -->
     <div class="tabs">
-        <button [class.active]="activeTab === 'current'" (click)="setTab('current')" [attr.data-count]="currentCount">
-            Đang thuê
+        <button [class.active]="activeTab === 'pending'" (click)="setTab('pending')" [attr.data-count]="currentCount">
+            Chờ thanh toán
         </button>
 
         <button [class.active]="activeTab === 'history'" (click)="setTab('history')" [attr.data-count]="historyCount">
-            Lịch sử đã thuê
+            Lịch sử đơn hàng
         </button>
     </div>
 
@@ -37,58 +37,47 @@
     <div class="rental-list">
         <div class="rental-card" *ngFor="let r of filteredRentals">
 
-            <!-- <img [src]="r.image" [alt]="r.name"> -->
-
             <div class="info">
-                <h3>{{ r.name }}</h3>
-                <p>
-                    <i class="bi bi-calendar"></i>
-                    {{ r.startDate }} → {{ r.endDate }}
-                </p>
-                <p class="price">{{ r.price | number }}₫</p>
+                <h3>Mã đơn hàng: {{ r.order_code }}</h3>
 
-                <p *ngIf="r.daysRemaining !== undefined && (r.status === 'active' || r.status === 'overdue')"
-                    class="countdown">
-                    <i class="bi bi-clock"></i>
-                    {{ getDaysRemainingText(r) }}
+                <p>
+                    <i class="bi bi-calendar"> Ngày thuê: </i>
+                    {{ r.startdate | date:'dd/MM/yyyy'}}
                 </p>
+                <p class="price">Tổng tiền thuê: {{ r.total_amount| number }} ₫</p>
+                <p class="price">Tổng tiền cọc: {{ r.deposit_amount| number }} ₫</p>
+
+                <span class="status" [class]="r.status">
+                    {{ getStatusLabel(r.status) }}
+                </span>
             </div>
 
             <div class="actions">
-                <!-- <span class="status" [class]="r.status"> -->
-                <!-- {{ getStatusLabel(r.status) }} -->
-                <span class="detail-order">
+
+                <!-- Chi tiết -->
+                <button class="action-btn detail" (click)="viewDetail(r.id, r.order_code)">
+                    <i class="bi bi-receipt"></i>
                     Chi tiết đơn hàng
-                </span>
+                </button>
 
                 <div class="action-buttons">
-                    <!-- Buttons for active rentals -->
-                    <ng-container *ngIf="r.status === 'active'">
-                        <button class="action-btn extend" (click)="extendRental(r.id)">
-                            <i class="bi bi-arrow-clockwise"></i>
-                            Gia hạn
-                        </button>
-                        <button class="action-btn cancel" (click)="cancelRental(r.id)">
-                            <i class="bi bi-x-circle"></i>
-                            Huỷ
+
+                    <!-- Pending -->
+                    <ng-container *ngIf="r.status === 'pending'">
+                        <button class="action-btn pay" (click)="payRental(r)">
+                            <i class="bi bi-credit-card"></i>
+                            Thanh toán
                         </button>
                     </ng-container>
 
-                    <!-- Buttons for overdue -->
-                    <ng-container *ngIf="r.status === 'overdue'">
-                        <button class="action-btn extend" (click)="extendRental(r.id)">
-                            <i class="bi bi-exclamation-triangle"></i>
-                            Thuê ngay
+                    <!-- Paid or Expired -->
+                    <ng-container *ngIf="r.status === 'paid' || r.status === 'expired'">
+                        <button class="action-btn buy-again" (click)="buyAgain(r.id)">
+                            <i class="bi bi-arrow-repeat"></i>
+                            Thuê lại
                         </button>
                     </ng-container>
 
-                    <!-- Buttons for returned -->
-                    <ng-container *ngIf="r.status === 'returned'">
-                        <button class="action-btn review" (click)="reviewRental(r.id)">
-                            <i class="bi bi-star"></i>
-                            Đánh giá
-                        </button>
-                    </ng-container>
                 </div>
             </div>
 

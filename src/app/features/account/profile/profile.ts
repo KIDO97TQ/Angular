@@ -1,20 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../../Core/auth/auth-service';
+import { CommonModule } from '@angular/common';
+import { OrderService } from '../../../Core/services/order';
 
 @Component({
   selector: 'app-profile',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
 export class ProfileComponent {
-  user = {
-    username: 'LuongEm',
-    phone: '0988424735',
-    joinedAt: '2024-05-12',
-    totalRentals: 120
-  };
+  authService = inject(AuthService);
+  orderService = inject(OrderService);
+  cd = inject(ChangeDetectorRef);
 
-  rank = this.getMemberRank(this.user.totalRentals);
+  alldata: any[] = [];
+  totalRentals = 0;
+  rank: any;
+  maxDate: any;
+
+  ngOnInit() {
+
+    const id = this.authService.getUserId()!;
+
+    this.orderService.getOrderQTY(id).subscribe({
+      next: (res) => {
+
+        this.alldata = res;
+        this.totalRentals = res.length;
+        this.rank = this.getMemberRank(this.totalRentals);
+        this.maxDate = new Date(
+          Math.max(...this.alldata.map(item => new Date(item.created_at).getTime()))
+        );
+        this.cd.detectChanges();
+      },
+      error: () => {
+        console.log('Không thể tải đơn hàng');
+      }
+    });
+  }
 
   getMemberRank(total: number) {
     if (total >= 60) {

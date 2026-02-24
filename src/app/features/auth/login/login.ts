@@ -102,7 +102,6 @@ export class LoginComponent {
     this.userService.login(payload)
       .pipe(
         finalize(() => {
-          // ⚠️ luôn chạy, kể cả success / error / navigate
           this.isLoginLoading = false;
         })
       )
@@ -115,6 +114,7 @@ export class LoginComponent {
           this.authService.setUsername(res.user.username);
           this.authService.setUserID(res.user.id);
           this.authService.setUserPhone(res.user.userphone);
+          this.authService.setUserdate(res.user.createdate);
           this.isLoggedIn = true;
           this.Loadingcart(res.user.id);
 

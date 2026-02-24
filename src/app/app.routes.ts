@@ -141,6 +141,11 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./features/checkout/payment-success/payment-success')
                 .then(m => m.PaymentSuccessComponent)
+    },
+    {
+        path: 'order-detail',
+        loadComponent: () =>
+            import('./features/account/myorder/order-detail/order-detail')
+                .then(m => m.OrderComponent)
     }
-
 ];
